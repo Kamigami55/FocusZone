@@ -6,16 +6,21 @@
 //
 
 import SwiftUI
+import os
 
 @main
 struct FocusZoneApp: App {
 
     @State private var appModel = AppModel()
+    
+    /// An object that stores the app's level of immersion.
+    @State private var immersiveEnvironment = ImmersiveEnvironment()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(appModel)
+                .environment(immersiveEnvironment)
         }
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
@@ -37,5 +42,16 @@ struct FocusZoneApp: App {
                 .environment(appModel)
         }
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
+        
+        // Defines an immersive space to present a destination in which to watch the video.
+        ImmersiveSpace(id: ImmersiveEnvironmentView.id) {
+            ImmersiveEnvironmentView()
+                .environment(immersiveEnvironment)
+        }
+        // Set the immersion style to progressive, so the user can use the Digital Crown to dial in their experience.
+        .immersionStyle(selection: .constant(.progressive), in: .progressive)
      }
 }
+
+/// A global log of events for the app.
+let logger = Logger()

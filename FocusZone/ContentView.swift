@@ -21,6 +21,8 @@ struct ContentView: View {
             ToggleImmersiveSpaceButton()
             
             SolarSystemToggle()
+            
+            ImmersiveEnvironmentPickerView()
         }
         .padding()
     }
@@ -29,4 +31,5 @@ struct ContentView: View {
 #Preview(windowStyle: .automatic) {
     ContentView()
         .environment(AppModel())
+        .environment(ImmersiveEnvironment())
 }

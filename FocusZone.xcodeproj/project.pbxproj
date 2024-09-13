@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B4698F62C93EF5A0033738A /* Studio in Frameworks */ = {isa = PBXBuildFile; productRef = 9B4698F52C93EF5A0033738A /* Studio */; };
 		9BA1C84F2C93CD8100FE4D01 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 9BA1C84E2C93CD8100FE4D01 /* RealityKitContent */; };
 /* End PBXBuildFile section */
 
@@ -21,6 +22,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B4698E72C93EBB30033738A /* Studio */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Studio; sourceTree = "<group>"; };
 		9BA1C8492C93CD8100FE4D01 /* FocusZone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FocusZone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BA1C84D2C93CD8100FE4D01 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		9BA1C8642C93CD8200FE4D01 /* FocusZoneTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FocusZoneTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B4698F62C93EF5A0033738A /* Studio in Frameworks */,
 				9BA1C84F2C93CD8100FE4D01 /* RealityKitContent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,12 +74,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B4698F42C93EF5A0033738A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9BA1C8402C93CD8100FE4D01 = {
 			isa = PBXGroup;
 			children = (
 				9BA1C84B2C93CD8100FE4D01 /* FocusZone */,
 				9BA1C84C2C93CD8100FE4D01 /* Packages */,
 				9BA1C8672C93CD8200FE4D01 /* FocusZoneTests */,
+				9B4698F42C93EF5A0033738A /* Frameworks */,
 				9BA1C84A2C93CD8100FE4D01 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -93,6 +104,7 @@
 		9BA1C84C2C93CD8100FE4D01 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				9B4698E72C93EBB30033738A /* Studio */,
 				9BA1C84D2C93CD8100FE4D01 /* RealityKitContent */,
 			);
 			path = Packages;
@@ -119,6 +131,7 @@
 			name = FocusZone;
 			packageProductDependencies = (
 				9BA1C84E2C93CD8100FE4D01 /* RealityKitContent */,
+				9B4698F52C93EF5A0033738A /* Studio */,
 			);
 			productName = FocusZone;
 			productReference = 9BA1C8492C93CD8100FE4D01 /* FocusZone.app */;
@@ -473,6 +486,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9B4698F52C93EF5A0033738A /* Studio */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Studio;
+		};
 		9BA1C84E2C93CD8100FE4D01 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
