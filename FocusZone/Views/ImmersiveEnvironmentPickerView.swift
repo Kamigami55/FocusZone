@@ -24,8 +24,12 @@ private struct StudioButton: View {
 
     var body: some View {
         Button {
-            immersiveEnvironment.requestEnvironmentState(state)
-            immersiveEnvironment.loadEnvironment()
+            if (immersiveEnvironment.showImmersiveSpace) {
+                immersiveEnvironment.showImmersiveSpace = false
+            } else {
+                immersiveEnvironment.requestEnvironmentState(state)
+                immersiveEnvironment.loadEnvironment()
+            }
         } label: {
             Label {
                 Text("Studio", comment: "Show Studio environment")
