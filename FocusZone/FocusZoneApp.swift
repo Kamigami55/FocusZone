@@ -15,6 +15,10 @@ struct FocusZoneApp: App {
     
     /// An object that stores the app's level of immersion.
     @State private var immersiveEnvironment = ImmersiveEnvironment()
+    /// The content brightness to apply to the immersive space.
+    @State private var contentBrightness: ImmersiveContentBrightness = .automatic
+    /// The effect modifies the passthrough in immersive space.
+    @State private var surroundingsEffect: SurroundingsEffect? = nil
 
     var body: some Scene {
         WindowGroup {
@@ -47,7 +51,19 @@ struct FocusZoneApp: App {
         ImmersiveSpace(id: ImmersiveEnvironmentView.id) {
             ImmersiveEnvironmentView()
                 .environment(immersiveEnvironment)
+                .onAppear {
+                    contentBrightness = immersiveEnvironment.contentBrightness
+                    surroundingsEffect = immersiveEnvironment.surroundingsEffect
+                }
+                .onDisappear {
+                    contentBrightness = .automatic
+                    surroundingsEffect = nil
+                }
+            // Apply a custom tint color for the video passthrough of a person's hands and surroundings.
+                .preferredSurroundingsEffect(surroundingsEffect)
         }
+        // Set the content brightness for the immersive space.
+        .immersiveContentBrightness(contentBrightness)
         // Set the immersion style to progressive, so the user can use the Digital Crown to dial in their experience.
         .immersionStyle(selection: .constant(.progressive), in: .progressive)
      }

@@ -25,6 +25,7 @@ struct ContentView: View {
             ImmersiveEnvironmentPickerView()
         }
         .padding()
+        .immersionManager()
     }
 }
 
