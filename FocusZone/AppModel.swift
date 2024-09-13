@@ -12,10 +12,12 @@ import SwiftUI
 @Observable
 class AppModel {
     let immersiveSpaceID = "ImmersiveSpace"
+    let solarSystemID = "SolarSystem"
     enum ImmersiveSpaceState {
         case closed
         case inTransition
         case open
     }
     var immersiveSpaceState = ImmersiveSpaceState.closed
+    var isShowingSolar = false
 }

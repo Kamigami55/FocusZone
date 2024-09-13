@@ -19,6 +19,8 @@ struct ContentView: View {
             Text("Hello, world!")
 
             ToggleImmersiveSpaceButton()
+            
+            SolarSystemToggle()
         }
         .padding()
     }
