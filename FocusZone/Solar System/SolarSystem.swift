@@ -13,7 +13,7 @@ import SplineRuntime
 struct SolarSystem: View {
     @Environment(AppModel.self) private var model
 
-    let url = URL(string: "https://build.spline.design/0kMeH6xHyAxCXCFx52ZL/scene.splineswift")!
+    let url = URL(string: "https://build.spline.design/S9l5nViK3LJjATgo4JmH/scene.splineswift")!
 
     var body: some View {
         ZStack {

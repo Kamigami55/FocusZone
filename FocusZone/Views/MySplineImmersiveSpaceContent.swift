@@ -14,7 +14,7 @@ struct MySplineImmersiveSpaceContent: ImmersiveSpaceContent {
         //        Blue shpere
 //        let url = URL(string: "https://build.spline.design/p80PNuXU8xN5xWUbuNcd/scene.splineswift")!
         //        Platform
-        let url = URL(string: "https://build.spline.design/0kMeH6xHyAxCXCFx52ZL/scene.splineswift")!
+        let url = URL(string: "https://build.spline.design/S9l5nViK3LJjATgo4JmH/scene.splineswift")!
         
         // fetching from local
         // let url = Bundle.main.url(forResource: "scene", withExtension: "splineswift")!
