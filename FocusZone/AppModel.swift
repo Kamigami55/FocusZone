@@ -12,6 +12,7 @@ import SwiftUI
 @Observable
 class AppModel {
     let immersiveSpaceID = "ImmersiveSpace"
+    let splineImmersiveSpaceID = "SplineImmersiveSpace"
     let solarSystemID = "SolarSystem"
     enum ImmersiveSpaceState {
         case closed

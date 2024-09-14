@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ToggleImmersiveSpaceButton: View {
+    var immersiveSpaceID: String
 
     @Environment(AppModel.self) private var appModel
 
@@ -27,7 +28,7 @@ struct ToggleImmersiveSpaceButton: View {
 
                     case .closed:
                         appModel.immersiveSpaceState = .inTransition
-                        switch await openImmersiveSpace(id: appModel.immersiveSpaceID) {
+                        switch await openImmersiveSpace(id: immersiveSpaceID) {
                             case .opened:
                                 // Don't set immersiveSpaceState to .open because there
                                 // may be multiple paths to ImmersiveView.onAppear().

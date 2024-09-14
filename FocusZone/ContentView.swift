@@ -10,6 +10,7 @@ import RealityKit
 import RealityKitContent
 
 struct ContentView: View {
+    @Environment(AppModel.self) private var model
 
     var body: some View {
         VStack {
@@ -18,7 +19,11 @@ struct ContentView: View {
 
             Text("Hello, world!")
 
-            ToggleImmersiveSpaceButton()
+            ToggleImmersiveSpaceButton(immersiveSpaceID: model.immersiveSpaceID)
+            
+            ToggleImmersiveSpaceButton(
+                immersiveSpaceID: model.splineImmersiveSpaceID
+            )
             
             SolarSystemToggle()
             

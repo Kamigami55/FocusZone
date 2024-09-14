@@ -41,6 +41,11 @@ struct FocusZoneApp: App {
         }
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
         
+        ImmersiveSpace(id: appModel.splineImmersiveSpaceID) {
+            SplineView()
+        }
+        .immersionStyle(selection: .constant(.mixed), in: .mixed)
+        
         // An immersive Space that shows the Earth, Moon, and Sun as seen from
         // Earth orbit.
         ImmersiveSpace(id: appModel.solarSystemID) {
