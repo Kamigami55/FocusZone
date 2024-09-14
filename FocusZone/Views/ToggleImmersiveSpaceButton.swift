@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ToggleImmersiveSpaceButton: View {
-    var immersiveSpaceID: String
+    var text: String
 
     @Environment(AppState.self) private var appState
 
@@ -28,7 +28,7 @@ struct ToggleImmersiveSpaceButton: View {
 
                     case .closed:
                         appState.immersiveSpaceState = .inTransition
-                        switch await openImmersiveSpace(id: immersiveSpaceID) {
+                        switch await openImmersiveSpace(id: appState.immersiveSpaceID) {
                             case .opened:
                                 // Don't set immersiveSpaceState to .open because there
                                 // may be multiple paths to ImmersiveView.onAppear().
@@ -50,10 +50,15 @@ struct ToggleImmersiveSpaceButton: View {
                 }
             }
         } label: {
-            Text(appState.immersiveSpaceState == .open ? "Hide Immersive Space" : "Show Immersive Space")
+            Text(text)
+                .frame(maxWidth: .infinity)
         }
         .disabled(appState.immersiveSpaceState == .inTransition)
         .animation(.none, value: 0)
-        .fontWeight(.semibold)
     }
+}
+
+#Preview {
+    ToggleImmersiveSpaceButton(text: "Button")
+        .environment(AppState())
 }

@@ -29,16 +29,8 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity)
                     
                 }
-                .frame(maxWidth: .infinity)
 
-                Button(action: {
-                    print("Start Button Pressed")
-                }) {
-                    Text("Start")
-                        .frame(maxWidth: .infinity)
-                    
-                }
-                
+                ToggleImmersiveSpaceButton(text: "Start")
             }
         }.padding()
     }

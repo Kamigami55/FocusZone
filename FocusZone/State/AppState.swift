@@ -12,9 +12,9 @@ import SwiftUI
 @Observable
 class AppState {
     let immersiveSpaceID = "ImmersiveSpace"
-    let splineImmersiveSpaceID = "SplineImmersiveSpace"
-    let solarSystemID = "SolarSystem"
+    let homeViewID = "HomeView"
     let customizeViewID = "CustomizeView"
+    
     enum ImmersiveSpaceState {
         case closed
         case inTransition
@@ -24,4 +24,8 @@ class AppState {
     var isShowingSolar = false
     
     var selectedFocusTimeLength: Int = 30
+    
+    var detectHeadMovement: Bool = true
+    var detectPhone: Bool = true
+    var detectSound: Bool = true
 }

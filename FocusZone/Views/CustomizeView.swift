@@ -30,27 +30,27 @@ struct CustomizeView: View {
                 Button(action: {
                     dismissWindow(id: appState.customizeViewID)
                 }) {
-                    Image(systemName: "xmark")
+                    Image(systemName: "chevron.left")
                 }
                 .buttonBorderShape(.circle)
-
+                
                 Spacer()
                 Text("Customize").font(.title)
                 Spacer()
             }
-
+            
             Picker("Focus Time Length",
                    selection: $appState.selectedFocusTimeLength) {
                 ForEach(focusTimeLengthOptions, id: \.self) { timeLength in
                     Text("\(timeLength) miuntes")
                 }
-            }.pickerStyle(WheelPickerStyle()
-            )
+            }
+                   .pickerStyle(WheelPickerStyle())
             
-            Button(action: {
-                print("Start Button Pressed")
-            }) {
-                Text("Start focus")
+            ToggleImmersiveSpaceButton(text: "Start focus")
+            
+            Toggle(isOn: $appState.detectHeadMovement) {
+                Text("Head Movement Detection")
             }
         }
         .padding()
