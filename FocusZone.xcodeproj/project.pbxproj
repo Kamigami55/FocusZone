@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		9B4698F62C93EF5A0033738A /* Studio in Frameworks */ = {isa = PBXBuildFile; productRef = 9B4698F52C93EF5A0033738A /* Studio */; };
 		9BA1C84F2C93CD8100FE4D01 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 9BA1C84E2C93CD8100FE4D01 /* RealityKitContent */; };
+		9BFBA0732C95415D00D38F00 /* SplineRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 9BFBA0722C95415D00D38F00 /* SplineRuntime */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B4698F62C93EF5A0033738A /* Studio in Frameworks */,
+				9BFBA0732C95415D00D38F00 /* SplineRuntime in Frameworks */,
 				9BA1C84F2C93CD8100FE4D01 /* RealityKitContent in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +134,7 @@
 			packageProductDependencies = (
 				9BA1C84E2C93CD8100FE4D01 /* RealityKitContent */,
 				9B4698F52C93EF5A0033738A /* Studio */,
+				9BFBA0722C95415D00D38F00 /* SplineRuntime */,
 			);
 			productName = FocusZone;
 			productReference = 9BA1C8492C93CD8100FE4D01 /* FocusZone.app */;
@@ -188,6 +191,9 @@
 			);
 			mainGroup = 9BA1C8402C93CD8100FE4D01;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9BFBA0712C95415D00D38F00 /* XCRemoteSwiftPackageReference "spline-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9BA1C84A2C93CD8100FE4D01 /* Products */;
 			projectDirPath = "";
@@ -485,6 +491,17 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		9BFBA0712C95415D00D38F00 /* XCRemoteSwiftPackageReference "spline-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/splinetool/spline-ios";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		9B4698F52C93EF5A0033738A /* Studio */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -493,6 +510,11 @@
 		9BA1C84E2C93CD8100FE4D01 /* RealityKitContent */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RealityKitContent;
+		};
+		9BFBA0722C95415D00D38F00 /* SplineRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9BFBA0712C95415D00D38F00 /* XCRemoteSwiftPackageReference "spline-ios" */;
+			productName = SplineRuntime;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
