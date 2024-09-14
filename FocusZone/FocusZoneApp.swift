@@ -28,6 +28,8 @@ struct FocusZoneApp: App {
         }
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
+            PostDetectView()
+
             ImmersiveView()
                 .environment(appModel)
                 .onAppear {
