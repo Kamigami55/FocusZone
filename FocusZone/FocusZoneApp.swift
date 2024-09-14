@@ -30,13 +30,24 @@ struct FocusZoneApp: App {
         WindowGroup(id: "Home") {
             HomeView()
                 .environment(appState)
+                .onAppear {
+                    // Disable resizing
+                    guard let windowScene = UIApplication.shared.connectedScenes.first as?UIWindowScene else { return }
+                    windowScene.requestGeometryUpdate(.Vision(resizingRestrictions: UIWindowScene.ResizingRestrictions.none))
+                }
         }
         .windowResizability(.contentSize)
         .defaultSize(width: 300, height: 200)  // Initial size, will be overridden by content
         
-        WindowGroup("Customize", id: appState.customizeViewID) {
+        
+        WindowGroup(id: appState.customizeViewID) {
             CustomizeView()
                 .environment(appState)
+                .onAppear {
+                    // Disable resizing
+                    guard let windowScene = UIApplication.shared.connectedScenes.first as?UIWindowScene else { return }
+                    windowScene.requestGeometryUpdate(.Vision(resizingRestrictions: UIWindowScene.ResizingRestrictions.none))
+                }
         }
         .windowResizability(.contentSize)
         .defaultSize(width: 300, height: 200)  // Initial size, will be overridden by content
