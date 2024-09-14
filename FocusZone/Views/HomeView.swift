@@ -20,14 +20,13 @@ struct HomeView: View {
             
             HStack(spacing: 10) {
                 Button(action: {
-                    openWindow(id: appState.customizeViewID)
+                    appState.isShowingCustomizeView = true
                 }) {
                     HStack {
                         Text("\(appState.selectedFocusTimeLength) mins")
                         Image(systemName: "chevron.right")
                     }
                     .frame(maxWidth: .infinity)
-                    
                 }
 
                 ToggleImmersiveSpaceButton(text: "Start")

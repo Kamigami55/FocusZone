@@ -17,6 +17,8 @@ struct FocusZoneApp: App {
     @State private var immersiveEnvironment = ImmersiveEnvironment()
 
     var body: some Scene {
+        @Bindable var appState = appState
+
         WindowGroup(id: appState.homeViewID) {
             HomeView()
                 .environment(appState)
@@ -26,22 +28,13 @@ struct FocusZoneApp: App {
                     windowScene.requestGeometryUpdate(.Vision(resizingRestrictions: UIWindowScene.ResizingRestrictions.none))
                 }
                 .preferredSurroundingsEffect(.systemDark)
-        }
-        .windowResizability(.contentSize)
-        
-        WindowGroup(id: appState.customizeViewID) {
-            CustomizeView()
-                .environment(appState)
-                .onAppear {
-                    // Disable resizing
-                    guard let windowScene = UIApplication.shared.connectedScenes.second as?UIWindowScene else {
-                        return
-                    }
-                    windowScene.requestGeometryUpdate(.Vision(resizingRestrictions: UIWindowScene.ResizingRestrictions.none))
+                .sheet(isPresented: $appState.isShowingCustomizeView) {
+                    CustomizeView()
+                        .environment(appState)
                 }
-                .preferredSurroundingsEffect(.systemDark)
         }
         .windowResizability(.contentSize)
+        .defaultSize(width: 0, height: 0)  // Initial size, will be overridden by content
 
         ImmersiveSpace(id: appState.immersiveSpaceID) {
             PostDetectView()

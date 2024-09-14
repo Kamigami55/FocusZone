@@ -13,13 +13,14 @@ import SwiftUI
 class AppState {
     let immersiveSpaceID = "ImmersiveSpace"
     let homeViewID = "HomeView"
-    let customizeViewID = "CustomizeView"
     
     enum ImmersiveSpaceState {
         case closed
         case inTransition
         case open
     }
+    var isShowingCustomizeView: Bool = false
+
     var immersiveSpaceState = ImmersiveSpaceState.closed
     var isShowingSolar = false
     

@@ -8,13 +8,8 @@
 import SwiftUI
 
 let focusTimeLengthOptions = [
-    1,
-    5,
-    10,
-    20,
+    15,
     30,
-    40,
-    50,
     60,
 ]
 
@@ -28,7 +23,7 @@ struct CustomizeView: View {
         VStack(spacing: 20) {
             HStack {
                 Button(action: {
-                    dismissWindow(id: appState.customizeViewID)
+                    appState.isShowingCustomizeView = false
                 }) {
                     Image(systemName: "chevron.left")
                 }
@@ -42,10 +37,27 @@ struct CustomizeView: View {
             Picker("Focus Time Length",
                    selection: $appState.selectedFocusTimeLength) {
                 ForEach(focusTimeLengthOptions, id: \.self) { timeLength in
-                    Text("\(timeLength) miuntes")
+                    Text("\(timeLength) miuntes").tag(timeLength)
                 }
             }
-                   .pickerStyle(WheelPickerStyle())
+                   .pickerStyle(.segmented)
+            
+            VStack(alignment: .leading) {
+                Text("Focus duration")
+                    .font(.subheadline)
+                HStack {
+                    Button(action: { appState.selectedFocusTimeLength = 15 }) {
+                        DurationButton(label: "15 mins", isSelected: appState.selectedFocusTimeLength == 15)
+                    }
+                    Button(action: { appState.selectedFocusTimeLength = 30 }) {
+                        DurationButton(label: "30 mins", isSelected: appState.selectedFocusTimeLength == 30)
+                    }
+                    Button(action: { appState.selectedFocusTimeLength = 60 }) {
+                        DurationButton(label: "60 mins", isSelected: appState.selectedFocusTimeLength == 60)
+                    }
+                }
+            }
+            .padding()
             
             ToggleImmersiveSpaceButton(text: "Start focus")
             
@@ -62,3 +74,17 @@ struct CustomizeView: View {
         .environment(AppState())
 }
 
+struct DurationButton: View {
+    var label: String
+    var isSelected: Bool
+    
+    var body: some View {
+        Text(label)
+//            .padding()
+//            .frame(width: 100)
+//            .background(isSelected ? Color.gray : Color.clear)
+//            .cornerRadius(10)
+//            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
+//            .foregroundColor(.black)
+    }
+}
