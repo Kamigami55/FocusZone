@@ -21,11 +21,17 @@ struct FocusZoneApp: App {
     @State private var surroundingsEffect: SurroundingsEffect? = nil
 
     var body: some Scene {
+        // WindowGroup {
+        //     ContentView()
+        //         .environment(appModel)
+        //         .environment(immersiveEnvironment)
+        // }
+
         WindowGroup {
-            ContentView()
-                .environment(appModel)
-                .environment(immersiveEnvironment)
+            HomeView()
         }
+        .windowResizability(.contentSize)
+        .defaultSize(width: 300, height: 200)  // Initial size, will be overridden by content
 
         ImmersiveSpace(id: appModel.immersiveSpaceID) {
             PostDetectView()

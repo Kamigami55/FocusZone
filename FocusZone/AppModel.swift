@@ -21,4 +21,6 @@ class AppModel {
     }
     var immersiveSpaceState = ImmersiveSpaceState.closed
     var isShowingSolar = false
+    
+    var selectedFocusTimeLength: Int = 30
 }
