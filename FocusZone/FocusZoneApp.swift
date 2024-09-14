@@ -35,6 +35,7 @@ struct FocusZoneApp: App {
                     guard let windowScene = UIApplication.shared.connectedScenes.first as?UIWindowScene else { return }
                     windowScene.requestGeometryUpdate(.Vision(resizingRestrictions: UIWindowScene.ResizingRestrictions.none))
                 }
+                .preferredSurroundingsEffect(.systemDark)
         }
         .windowResizability(.contentSize)
         .defaultSize(width: 300, height: 200)  // Initial size, will be overridden by content
@@ -48,6 +49,7 @@ struct FocusZoneApp: App {
                     guard let windowScene = UIApplication.shared.connectedScenes.first as?UIWindowScene else { return }
                     windowScene.requestGeometryUpdate(.Vision(resizingRestrictions: UIWindowScene.ResizingRestrictions.none))
                 }
+                .preferredSurroundingsEffect(.systemDark)
         }
         .windowResizability(.contentSize)
         .defaultSize(width: 300, height: 200)  // Initial size, will be overridden by content
