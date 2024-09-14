@@ -20,14 +20,25 @@ let focusTimeLengthOptions = [
 
 struct CustomizeView: View {
     @Environment(AppState.self) private var appState
-
+    @Environment(\.dismissWindow) private var dismissWindow
     
     var body: some View {
         @Bindable var appState = appState
-        
+
         VStack(spacing: 20) {
-            Text("Customize").font(.title)
-            
+            HStack {
+                Button(action: {
+                    dismissWindow(id: appState.customizeViewID)
+                }) {
+                    Image(systemName: "xmark")
+                }
+                .buttonBorderShape(.circle)
+
+                Spacer()
+                Text("Customize").font(.title)
+                Spacer()
+            }
+
             Picker("Focus Time Length",
                    selection: $appState.selectedFocusTimeLength) {
                 ForEach(focusTimeLengthOptions, id: \.self) { timeLength in
@@ -46,8 +57,8 @@ struct CustomizeView: View {
     }
 }
 
-#Preview(windowStyle: .automatic) {
+#Preview(windowStyle: .automatic, traits: .sizeThatFitsLayout) {
     CustomizeView()
-        .frame(width: 500, height: 300)
         .environment(AppState())
 }
+
