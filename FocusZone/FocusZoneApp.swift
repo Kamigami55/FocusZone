@@ -42,7 +42,7 @@ struct FocusZoneApp: App {
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
         
         ImmersiveSpace(id: appModel.splineImmersiveSpaceID) {
-            SplineView()
+            MySplineImmersiveSpaceContent()
         }
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
         
