@@ -29,3 +29,8 @@ struct SolarSystem: View {
         }
     }
 }
+
+#Preview(immersionStyle: .automatic) {
+    SolarSystem()
+        .environment(AppModel())
+}
