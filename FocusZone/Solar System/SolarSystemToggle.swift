@@ -9,21 +9,21 @@ import SwiftUI
 
 /// A toggle that activates or deactivates the solar system scene.
 struct SolarSystemToggle: View {
-    @Environment(AppModel.self) private var model
+    @Environment(AppState.self) private var appState
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
 
     var body: some View {
         Button {
             Task {
-                if model.isShowingSolar {
+                if appState.isShowingSolar {
                     await dismissImmersiveSpace()
                 } else {
-                    await openImmersiveSpace(id: model.solarSystemID)
+                    await openImmersiveSpace(id: appState.solarSystemID)
                 }
             }
         } label: {
-            if model.isShowingSolar {
+            if appState.isShowingSolar {
                 Label(
                     "Exit the Solar System",
                     systemImage: "arrow.down.right.and.arrow.up.left")
@@ -36,5 +36,5 @@ struct SolarSystemToggle: View {
 
 #Preview {
     SolarSystemToggle()
-        .environment(AppModel())
+        .environment(AppState())
 }

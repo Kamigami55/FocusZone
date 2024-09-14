@@ -11,7 +11,7 @@ import SplineRuntime
 
 /// The model content for the solar system module.
 struct SolarSystem: View {
-    @Environment(AppModel.self) private var model
+    @Environment(AppState.self) private var appState
 
     let url = URL(string: "https://build.spline.design/S9l5nViK3LJjATgo4JmH/scene.splineswift")!
 
@@ -22,15 +22,15 @@ struct SolarSystem: View {
             SplineVolumetricContent(sceneFileURL: url)
         }
         .onAppear {
-            model.isShowingSolar = true
+            appState.isShowingSolar = true
         }
         .onDisappear {
-            model.isShowingSolar = false
+            appState.isShowingSolar = false
         }
     }
 }
 
 #Preview(immersionStyle: .automatic) {
     SolarSystem()
-        .environment(AppModel())
+        .environment(AppState())
 }

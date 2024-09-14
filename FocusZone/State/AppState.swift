@@ -10,10 +10,11 @@ import SwiftUI
 /// Maintains app-wide state
 @MainActor
 @Observable
-class AppModel {
+class AppState {
     let immersiveSpaceID = "ImmersiveSpace"
     let splineImmersiveSpaceID = "SplineImmersiveSpace"
     let solarSystemID = "SolarSystem"
+    let customizeViewID = "CustomizeView"
     enum ImmersiveSpaceState {
         case closed
         case inTransition

@@ -10,7 +10,7 @@ import SwiftUI
 struct ToggleImmersiveSpaceButton: View {
     var immersiveSpaceID: String
 
-    @Environment(AppModel.self) private var appModel
+    @Environment(AppState.self) private var appState
 
     @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
@@ -18,16 +18,16 @@ struct ToggleImmersiveSpaceButton: View {
     var body: some View {
         Button {
             Task { @MainActor in
-                switch appModel.immersiveSpaceState {
+                switch appState.immersiveSpaceState {
                     case .open:
-                        appModel.immersiveSpaceState = .inTransition
+                        appState.immersiveSpaceState = .inTransition
                         await dismissImmersiveSpace()
                         // Don't set immersiveSpaceState to .closed because there
                         // are multiple paths to ImmersiveView.onDisappear().
                         // Only set .closed in ImmersiveView.onDisappear().
 
                     case .closed:
-                        appModel.immersiveSpaceState = .inTransition
+                        appState.immersiveSpaceState = .inTransition
                         switch await openImmersiveSpace(id: immersiveSpaceID) {
                             case .opened:
                                 // Don't set immersiveSpaceState to .open because there
@@ -41,7 +41,7 @@ struct ToggleImmersiveSpaceButton: View {
                                 fallthrough
                             @unknown default:
                                 // On unknown response, assume space did not open.
-                                appModel.immersiveSpaceState = .closed
+                                appState.immersiveSpaceState = .closed
                         }
 
                     case .inTransition:
@@ -50,9 +50,9 @@ struct ToggleImmersiveSpaceButton: View {
                 }
             }
         } label: {
-            Text(appModel.immersiveSpaceState == .open ? "Hide Immersive Space" : "Show Immersive Space")
+            Text(appState.immersiveSpaceState == .open ? "Hide Immersive Space" : "Show Immersive Space")
         }
-        .disabled(appModel.immersiveSpaceState == .inTransition)
+        .disabled(appState.immersiveSpaceState == .inTransition)
         .animation(.none, value: 0)
         .fontWeight(.semibold)
     }

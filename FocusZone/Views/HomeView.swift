@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Environment(AppModel.self) private var appModel
+    @Environment(AppState.self) private var appState
+    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         VStack(spacing: 20) {
@@ -19,10 +20,10 @@ struct HomeView: View {
             
             HStack(spacing: 10) {
                 Button(action: {
-                    // Button action goes here
+                    openWindow(id: appState.customizeViewID)
                 }) {
                     HStack {
-                        Text("\(appModel.selectedFocusTimeLength) mins")
+                        Text("\(appState.selectedFocusTimeLength) mins")
                         Image(systemName: "chevron.right")
                     }                .frame(maxWidth: .infinity)
                     
@@ -45,5 +46,5 @@ struct HomeView: View {
 #Preview(windowStyle: .automatic) {
     HomeView()
         .frame(width: 500, height: 300)
-        .environment(AppModel())
+        .environment(AppState())
 }

@@ -11,7 +11,7 @@ import os
 @main
 struct FocusZoneApp: App {
 
-    @State private var appModel = AppModel()
+    @State private var appState = AppState()
     
     /// An object that stores the app's level of immersion.
     @State private var immersiveEnvironment = ImmersiveEnvironment()
@@ -27,36 +27,44 @@ struct FocusZoneApp: App {
         //         .environment(immersiveEnvironment)
         // }
 
-        WindowGroup {
+        WindowGroup(id: "Home") {
             HomeView()
+                .environment(appState)
+        }
+        .windowResizability(.contentSize)
+        .defaultSize(width: 300, height: 200)  // Initial size, will be overridden by content
+        
+        WindowGroup("Customize", id: appState.customizeViewID) {
+            CustomizeView()
+                .environment(appState)
         }
         .windowResizability(.contentSize)
         .defaultSize(width: 300, height: 200)  // Initial size, will be overridden by content
 
-        ImmersiveSpace(id: appModel.immersiveSpaceID) {
+        ImmersiveSpace(id: appState.immersiveSpaceID) {
             PostDetectView()
 
             ImmersiveView()
-                .environment(appModel)
+                .environment(appState)
                 .onAppear {
-                    appModel.immersiveSpaceState = .open
+                    appState.immersiveSpaceState = .open
                 }
                 .onDisappear {
-                    appModel.immersiveSpaceState = .closed
+                    appState.immersiveSpaceState = .closed
                 }
         }
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
         
-        ImmersiveSpace(id: appModel.splineImmersiveSpaceID) {
+        ImmersiveSpace(id: appState.splineImmersiveSpaceID) {
             MySplineImmersiveSpaceContent()
         }
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
         
         // An immersive Space that shows the Earth, Moon, and Sun as seen from
         // Earth orbit.
-        ImmersiveSpace(id: appModel.solarSystemID) {
+        ImmersiveSpace(id: appState.solarSystemID) {
             SolarSystem()
-                .environment(appModel)
+                .environment(appState)
         }
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
         

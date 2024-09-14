@@ -19,32 +19,35 @@ let focusTimeLengthOptions = [
 ]
 
 struct CustomizeView: View {
-    @Environment(AppModel.self) private var appModel
+    @Environment(AppState.self) private var appState
 
     
     var body: some View {
-        @Bindable var appModel = appModel
+        @Bindable var appState = appState
         
-        Text("Customize").font(.title)
-        
-        Picker("Focus Time Length",
-               selection: $appModel.selectedFocusTimeLength) {
-            ForEach(focusTimeLengthOptions, id: \.self) { timeLength in
-                Text("\(timeLength) miuntes")
+        VStack(spacing: 20) {
+            Text("Customize").font(.title)
+            
+            Picker("Focus Time Length",
+                   selection: $appState.selectedFocusTimeLength) {
+                ForEach(focusTimeLengthOptions, id: \.self) { timeLength in
+                    Text("\(timeLength) miuntes")
+                }
+            }.pickerStyle(WheelPickerStyle()
+            )
+            
+            Button(action: {
+                print("Start Button Pressed")
+            }) {
+                Text("Start focus")
             }
-        }.pickerStyle(WheelPickerStyle()
-        )
-        
-        Button(action: {
-            print("Start Button Pressed")
-        }) {
-            Text("Start focus")
         }
+        .padding()
     }
 }
 
 #Preview(windowStyle: .automatic) {
     CustomizeView()
         .frame(width: 500, height: 300)
-        .environment(AppModel())
+        .environment(AppState())
 }

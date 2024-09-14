@@ -40,5 +40,5 @@ struct Starfield: View {
 
 #Preview(immersionStyle: .automatic) {
     Starfield()
-        .environment(AppModel())
+        .environment(AppState())
 }
