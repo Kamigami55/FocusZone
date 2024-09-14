@@ -25,7 +25,8 @@ struct HomeView: View {
                     HStack {
                         Text("\(appState.selectedFocusTimeLength) mins")
                         Image(systemName: "chevron.right")
-                    }                .frame(maxWidth: .infinity)
+                    }
+                    .frame(maxWidth: .infinity)
                     
                 }
                 .frame(maxWidth: .infinity)

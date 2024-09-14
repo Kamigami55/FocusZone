@@ -46,7 +46,9 @@ struct FocusZoneApp: App {
                 .environment(appState)
                 .onAppear {
                     // Disable resizing
-                    guard let windowScene = UIApplication.shared.connectedScenes.first as?UIWindowScene else { return }
+                    guard let windowScene = UIApplication.shared.connectedScenes.second as?UIWindowScene else {
+                        return
+                    }
                     windowScene.requestGeometryUpdate(.Vision(resizingRestrictions: UIWindowScene.ResizingRestrictions.none))
                 }
                 .preferredSurroundingsEffect(.systemDark)
