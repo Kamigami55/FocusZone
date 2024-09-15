@@ -13,17 +13,21 @@ struct HomeView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Image("AppIcon-standalone")
-                .resizable()
-                .scaledToFill()
-                .frame(width: 100, height: 100)
-                .clipShape(Circle())
-                .shadow(radius: 10)
+            Group {
+                Image("AppIcon-standalone")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 80, height: 80)
+                    .clipShape(Circle())
+                    .shadow(radius: 10)
+            }
+            .frame(width: 100, height: 100)
 
-            Text("Focus Zone").font(.title)
-            Text("Get things done")
+            Text("Welcome to Focus Zone").font(.title)
+            Text("Your Productivity Assistant")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
+                .padding(EdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0))
             
             HStack(spacing: 10) {
                 Button(action: {
@@ -38,7 +42,8 @@ struct HomeView: View {
 
                 ToggleImmersiveSpaceButton(text: "Start")
             }
-        }.padding()
+        }
+            .padding(EdgeInsets(top: 40, leading: 24, bottom: 48, trailing: 24))
     }
 }
 
