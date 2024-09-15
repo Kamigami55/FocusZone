@@ -40,8 +40,7 @@ struct FocusZoneApp: App {
         .defaultSize(width: 0, height: 0)  // Initial size, will be overridden by content
         
         WindowGroup(id: appState.countdownViewID) {
-            CountdownTimerView()
-                .environment(appState)
+            CountdownTimerView(appState: appState)
                 .onAppear {
                     // Disable resizing
                     guard let windowScene = UIApplication.shared.connectedScenes.second as?UIWindowScene else { return }

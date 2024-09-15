@@ -8,34 +8,33 @@
 import SwiftUI
 
 struct CountdownTimerView: View {
-    @Environment(AppState.self) private var appState
+    @StateObject private var viewModel: CountdownTimerViewModel
+    
+    init(appState: AppState) {
+        self._viewModel = StateObject(wrappedValue: appState.countdownTimer)
+    }
     
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text(String(format: "%02d", appState.countdownTimer.minute))
+                Text(String(format: "%02d", viewModel.minute))
                     .font(.system(size: 22, weight: .bold))
                 Text(":")
                     .font(.system(size: 22, weight: .bold))
-                Text(String(format: "%02d", appState.countdownTimer.second))
+                Text(String(format: "%02d", viewModel.second))
                     .font(.system(size: 22, weight: .bold))
             }
             
-            Button("Start \(appState.selectedFocusTimeLength) min countdown") {
-                appState.countdownTimer.startCountdown(numSecs: appState.selectedFocusTimeLength * 60)
-            }
-            .disabled(appState.countdownTimer.isRunning)
-            
-            if appState.countdownTimer.isRunning {
+            if viewModel.isRunning {
                 Button(action: {
-                    appState.countdownTimer.pauseCountdown()
+                    viewModel.pauseCountdown()
                 }) {
                     Image(systemName: "pause.fill")
                 }
                 .buttonBorderShape(.circle)
-            } else if appState.countdownTimer.pausedTimeRemaining != nil {
+            } else if viewModel.pausedTimeRemaining != nil {
                 Button(action: {
-                    appState.countdownTimer.resumeCountdown()
+                    viewModel.resumeCountdown()
                 }) {
                     Image(systemName: "play.fill")
                 }
@@ -43,17 +42,21 @@ struct CountdownTimerView: View {
             }
             
             Button(action: {
-                appState.countdownTimer.terminateCountdown()
+                viewModel.terminateCountdown()
             }) {
                 Image(systemName: "stop.fill")
             }
             .buttonBorderShape(.circle)
-            .disabled(!appState.countdownTimer.isRunning && appState.countdownTimer.pausedTimeRemaining == nil)
+            .disabled(!viewModel.isRunning && viewModel.pausedTimeRemaining == nil)
         }
     }
 }
 
 #Preview {
-    CountdownTimerView()
-        .environment(AppState())
+    let appState = AppState()
+    
+    CountdownTimerView(appState: appState)
+        .onAppear() {
+            appState.countdownTimer.startCountdown(numSecs: 10 * 60)
+        }
 }
