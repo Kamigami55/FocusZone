@@ -13,6 +13,7 @@ import SplineRuntime
 struct SolarSystem: View {
     @Environment(AppState.self) private var appState
 
+//    let url = URL(string: "https://build.spline.design/0kMeH6xHyAxCXCFx52ZL/scene.splineswift")!
     let url = URL(string: "https://build.spline.design/S9l5nViK3LJjATgo4JmH/scene.splineswift")!
 
     var body: some View {
@@ -20,6 +21,7 @@ struct SolarSystem: View {
             Starfield()
 
             SplineVolumetricContent(sceneFileURL: url)
+                .frame(width: 30000, height: 30000)
         }
     }
 }
