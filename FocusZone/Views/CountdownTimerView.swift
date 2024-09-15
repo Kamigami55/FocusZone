@@ -10,13 +10,13 @@ import SwiftUI
 func getDistractionAlertTitle(distractionType: DistractionType?) -> String {
     switch distractionType {
     case .headMovement:
-        return "Head movement detected"
+        return "Head movement detected!"
     case .phone:
-        return "Phone detected"
+        return "Phone detected!"
     case .sound:
-        return "Sound detected"
+        return "Lound sound detected!"
     default:
-        return "Distraction detected"
+        return "Distraction detected!"
     }
 }
 
@@ -25,9 +25,9 @@ func getDistractionAlertBody(distractionType: DistractionType?) -> String {
     case .headMovement:
         return "Move your head back to focus area"
     case .phone:
-        return "Put your phone away"
+        return "Please hide your phone"
     case .sound:
-        return "Please stop talking and go back to work"
+        return "Try stop talking or reduce environmental noise"
     default:
         return "Please back to focus"
     }
@@ -98,7 +98,10 @@ struct CountdownTimerView: View {
                 appState.isShowingDistractionAlert = false
             }
         }, message: {
-            Text(getDistractionAlertTitle(distractionType: appState.activeDistraction))
+            HStack(spacing: 10) {
+                Image(systemName: "exclamationmark.triangle")
+                Text(getDistractionAlertBody(distractionType: appState.activeDistraction))
+            }
         })
 
         .alert(Text("Confirm leaving"), isPresented: $appState.isShowingConfirmStopAlert, actions: {
