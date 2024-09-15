@@ -17,21 +17,20 @@ class CountdownTimerViewModel: ObservableObject {
     @Published var minute: Int = 0
     @Published var second: Int = 0
     
-    var endDate: Date = Date()
+    private var startDate: Date?
+    private var endDate: Date = Date()
+
+    @Published var isRunning: Bool = false
+    @Published var pausedTimeRemaining: TimeInterval?
+
     var hasCountdownCompleted: Bool {
         Date() > endDate
     }
-    
-    @Published var isRunning: Bool = false
-    private var startDate: Date?
-    private var pausedTimeRemaining: TimeInterval?
-    
-    init(endDate: String) {
-        self.endDate =  parseDate(endDate)
-        updateTimer()
-    }
+
+    init() {}
     
     func startCountdown(numSecs: Int) {
+        print("Starting countdown for \(numSecs) seconds") // Debug print
         startDate = Date()
         endDate = startDate!.addingTimeInterval(TimeInterval(numSecs))
         isRunning = true
@@ -67,14 +66,17 @@ class CountdownTimerViewModel: ObservableObject {
     func updateTimer() {
         guard isRunning else { return }
         
+        let now = Date()
+        print("Updating timer. Current time: \(now), End time: \(endDate)") // Debug print
+        
         let calendar = Calendar(identifier: .gregorian)
         let timeValue = calendar.dateComponents(
             [.day, .hour, .minute, .second],
-            from: Date.now,
+            from: now,
             to: endDate
         )
         
-        if !hasCountdownCompleted,
+        if now < endDate,
            let day = timeValue.day,
            let hour = timeValue.hour,
            let minute = timeValue.minute,
@@ -83,22 +85,10 @@ class CountdownTimerViewModel: ObservableObject {
             self.hour = hour
             self.minute = minute
             self.second = second
+            print("Updated time: \(day)d \(hour)h \(minute)m \(second)s") // Debug print
         } else {
+            print("Countdown completed or invalid") // Debug print
             terminateCountdown()
         }
-    }
-    
-    // Parse date from given string, identifying what format it matches.
-    private func parseDate(_ dateString: String) -> Date {
-        
-        // Normally, you use DateFormatter to format date from a given string (i.e. "MM/dd/yy, yyyy-MM-dd, dd/MM/yy, etc).
-        // But since we are formatting using the ISO 8601 format("yyyy-MM-dd’T’HH:mm:ssZ"), we can use ISO8601DateFormatter()
-        // to create the date since the format is built into the class.
-        let dateFormatter = ISO8601DateFormatter()
-        guard let date = dateFormatter.date(from: dateString) else {
-            return Date()
-        }
-        
-        return date
     }
 }

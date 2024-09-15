@@ -8,16 +8,12 @@
 import SwiftUI
 
 struct CountdownTimerView: View {
-    @StateObject var viewModel: CountdownTimerViewModel
+    @StateObject var viewModel = CountdownTimerViewModel()
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     private var hasCountdownCompleted: Bool {
         viewModel.hasCountdownCompleted
-    }
-    
-    init(endDate: String) {
-        _viewModel = StateObject(wrappedValue: CountdownTimerViewModel(endDate: endDate))
     }
     
     var body: some View {
@@ -71,13 +67,29 @@ struct CountdownTimerView: View {
                         .font(.system(size: 11))
                 }
             }
+            
+            Button("Start 25 min countdown") {
+                viewModel.startCountdown(numSecs: 25 * 60)
+            }
+            .disabled(viewModel.isRunning)
+            
+            if viewModel.isRunning {
+                Button("Pause") {
+                    viewModel.pauseCountdown()
+                }
+            } else if viewModel.pausedTimeRemaining != nil {
+                Button("Resume") {
+                    viewModel.resumeCountdown()
+                }
+            }
+            
+            Button("Terminate") {
+                viewModel.terminateCountdown()
+            }
+            .disabled(!viewModel.isRunning && viewModel.pausedTimeRemaining == nil)
         }
         .onReceive(timer) { _ in
-            if hasCountdownCompleted {
-                timer.upstream.connect().cancel() // turn off timer
-            } else {
-                viewModel.updateTimer()
-            }
+            viewModel.updateTimer()
         }
     }
 }
@@ -91,5 +103,5 @@ extension CountdownTimerView {
 }
 
 #Preview {
-    CountdownTimerView(endDate: Date.distantFuture.ISO8601Format())
+    CountdownTimerView()
 }
