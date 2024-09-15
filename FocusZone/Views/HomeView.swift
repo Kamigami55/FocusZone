@@ -13,6 +13,13 @@ struct HomeView: View {
 
     var body: some View {
         VStack(spacing: 20) {
+            Image("AppIcon-standalone")
+                .resizable()
+                .scaledToFill()
+                .frame(width: 100, height: 100)
+                .clipShape(Circle())
+                .shadow(radius: 10)
+
             Text("Focus Zone").font(.title)
             Text("Get things done")
                 .font(.subheadline)
