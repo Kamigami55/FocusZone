@@ -34,4 +34,6 @@ class AppState {
     var detectHeadMovement: Bool = true
     var detectPhone: Bool = true
     var detectSound: Bool = true
+
+    let countdownTimer = CountdownTimerViewModel()
 }

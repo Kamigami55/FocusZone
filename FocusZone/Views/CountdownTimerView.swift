@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct CountdownTimerView: View {
-    @StateObject var viewModel = CountdownTimerViewModel()
+    @Environment(AppState.self) private var appState
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     private var hasCountdownCompleted: Bool {
-        viewModel.hasCountdownCompleted
+        appState.countdownTimer.hasCountdownCompleted
     }
     
     var body: some View {
         VStack(spacing: 16) {
             HStack {
                 VStack(spacing: 8) {
-                    Text(String(format: "%02d", viewModel.day))
+                    Text(String(format: "%02d", appState.countdownTimer.day))
                         .font(.system(size: 22, weight: .bold))
                         .foregroundColor(.red)
                     Text("day")
@@ -33,7 +33,7 @@ struct CountdownTimerView: View {
                         .frame(height: 15)
                 }
                 VStack(spacing: 8) {
-                    Text(String(format: "%02d", viewModel.hour))
+                    Text(String(format: "%02d", appState.countdownTimer.hour))
                         .font(.system(size: 22, weight: .bold))
                         .foregroundColor(.red)
                     Text("hour")
@@ -46,7 +46,7 @@ struct CountdownTimerView: View {
                         .frame(height: 15)
                 }
                 VStack(spacing: 8) {
-                    Text(String(format: "%02d", viewModel.minute))
+                    Text(String(format: "%02d", appState.countdownTimer.minute))
                         .font(.system(size: 22, weight: .bold))
                         .foregroundColor(.red)
                     Text("min")
@@ -59,7 +59,7 @@ struct CountdownTimerView: View {
                         .frame(height: 15)
                 }
                 VStack(spacing: 8) {
-                    Text(String(format: "%02d", viewModel.second))
+                    Text(String(format: "%02d", appState.countdownTimer.second))
                         .font(.system(size: 22, weight: .bold))
                         .foregroundColor(.red)
                     Text("sec")
@@ -68,28 +68,28 @@ struct CountdownTimerView: View {
                 }
             }
             
-            Button("Start 25 min countdown") {
-                viewModel.startCountdown(numSecs: 25 * 60)
+            Button("Start \(appState.selectedFocusTimeLength) min countdown") {
+                appState.countdownTimer.startCountdown(numSecs: appState.selectedFocusTimeLength * 60)
             }
-            .disabled(viewModel.isRunning)
+            .disabled(appState.countdownTimer.isRunning)
             
-            if viewModel.isRunning {
+            if appState.countdownTimer.isRunning {
                 Button("Pause") {
-                    viewModel.pauseCountdown()
+                    appState.countdownTimer.pauseCountdown()
                 }
-            } else if viewModel.pausedTimeRemaining != nil {
+            } else if appState.countdownTimer.pausedTimeRemaining != nil {
                 Button("Resume") {
-                    viewModel.resumeCountdown()
+                    appState.countdownTimer.resumeCountdown()
                 }
             }
             
             Button("Terminate") {
-                viewModel.terminateCountdown()
+                appState.countdownTimer.terminateCountdown()
             }
-            .disabled(!viewModel.isRunning && viewModel.pausedTimeRemaining == nil)
+            .disabled(!appState.countdownTimer.isRunning && appState.countdownTimer.pausedTimeRemaining == nil)
         }
         .onReceive(timer) { _ in
-            viewModel.updateTimer()
+            appState.countdownTimer.updateTimer()
         }
     }
 }
@@ -104,4 +104,5 @@ extension CountdownTimerView {
 
 #Preview {
     CountdownTimerView()
+        .environment(AppState())
 }
