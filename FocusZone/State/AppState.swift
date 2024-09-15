@@ -7,11 +7,15 @@
 
 import SwiftUI
 
+enum ImmersiveSpaceId: String, CaseIterable {
+    case transparent
+    case space
+}
+
 /// Maintains app-wide state
 @MainActor
 @Observable
 class AppState {
-    let immersiveSpaceID = "ImmersiveSpace"
     let homeViewID = "HomeView"
     
     enum ImmersiveSpaceState {
@@ -25,6 +29,7 @@ class AppState {
     var isShowingSolar = false
     
     var selectedFocusTimeLength: Int = 30
+    var selectedImmersiveSpaceId: ImmersiveSpaceId = .space
     
     var detectHeadMovement: Bool = true
     var detectPhone: Bool = true

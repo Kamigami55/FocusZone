@@ -36,17 +36,28 @@ struct FocusZoneApp: App {
         .windowResizability(.contentSize)
         .defaultSize(width: 0, height: 0)  // Initial size, will be overridden by content
 
-        ImmersiveSpace(id: appState.immersiveSpaceID) {
+        ImmersiveSpace(id: ImmersiveSpaceId.transparent.rawValue) {
             PostDetectView()
-
-            SolarSystem()
-                .environment(appState)
                 .onAppear {
                     appState.immersiveSpaceState = .open
                 }
                 .onDisappear {
                     appState.immersiveSpaceState = .closed
                 }
+        }
+        .immersionStyle(selection: .constant(.mixed), in: .mixed)
+        
+        ImmersiveSpace(id: ImmersiveSpaceId.space.rawValue) {
+            PostDetectView()
+                .onAppear {
+                    appState.immersiveSpaceState = .open
+                }
+                .onDisappear {
+                    appState.immersiveSpaceState = .closed
+                }
+
+            SolarSystem()
+                .environment(appState)
         }
         .immersionStyle(selection: .constant(.mixed), in: .mixed)
      }

@@ -33,37 +33,86 @@ struct CustomizeView: View {
                 Text("Customize").font(.title)
                 Spacer()
             }
-            
-            Picker("Focus Time Length",
-                   selection: $appState.selectedFocusTimeLength) {
-                ForEach(focusTimeLengthOptions, id: \.self) { timeLength in
-                    Text("\(timeLength) miuntes").tag(timeLength)
-                }
-            }
-                   .pickerStyle(.segmented)
-            
+
             VStack(alignment: .leading) {
                 Text("Focus duration")
                     .font(.subheadline)
-                HStack {
-                    Button(action: { appState.selectedFocusTimeLength = 15 }) {
-                        DurationButton(label: "15 mins", isSelected: appState.selectedFocusTimeLength == 15)
+
+                Picker("Focus Time Length",
+                       selection: $appState.selectedFocusTimeLength) {
+                    ForEach(focusTimeLengthOptions, id: \.self) { timeLength in
+                        Text("\(timeLength) mins").tag(timeLength)
                     }
-                    Button(action: { appState.selectedFocusTimeLength = 30 }) {
-                        DurationButton(label: "30 mins", isSelected: appState.selectedFocusTimeLength == 30)
+                }
+                       .pickerStyle(.segmented)
+            }
+
+            Divider()
+            
+            VStack(alignment: .leading) {
+                Text("Choose background")
+                    .font(.subheadline)
+                
+                HStack(spacing: 24) {
+                    Button(action: {
+                        appState.selectedImmersiveSpaceId = .space
+                    }) {
+                        VStack {
+                            Image("Space")
+                                .resizable()
+                                .scaledToFill()
+                                .clipShape(
+                                    RoundedRectangle(cornerRadius: CGFloat(16))
+                                )
+                                .frame(width: 100, height: 100)
+                            
+                            Text("Space")
+                        }
+                        .padding(8)
                     }
-                    Button(action: { appState.selectedFocusTimeLength = 60 }) {
-                        DurationButton(label: "60 mins", isSelected: appState.selectedFocusTimeLength == 60)
+                    .buttonStyle(.plain)
+                    .buttonBorderShape(.roundedRectangle(radius: 16))
+                    
+                    Button(action: {
+                        appState.selectedImmersiveSpaceId = .transparent
+                    }) {
+                        VStack {
+                            Image(systemName: "circle.slash")
+                                .frame(width: 100, height: 100)
+                            Text("Transparent")
+                        }
+                        .padding(8)
+                        .backgroundStyle(.primary)
+                    }
+                    .buttonStyle(.plain)
+                    .buttonBorderShape(.roundedRectangle(radius: 16))
+                }
+            }
+
+            Divider()
+
+            VStack(alignment: .leading) {
+                Text("Detect distraction")
+                    .font(.subheadline)
+                
+                Form {
+                    Toggle(isOn: $appState.detectHeadMovement) {
+                        Text("Head movement")
+                        Text("Receive warning when moving your head")
+                    }
+                    Toggle(isOn: $appState.detectPhone) {
+                        Text("Phone detection")
+                        Text("Receive warning when touching your phone")
+                    }
+                    Toggle(isOn: $appState.detectSound) {
+                        Text("Sound detection")
+                        Text("Receive warning when speaking")
                     }
                 }
             }
-            .padding()
             
+
             ToggleImmersiveSpaceButton(text: "Start focus")
-            
-            Toggle(isOn: $appState.detectHeadMovement) {
-                Text("Head Movement Detection")
-            }
         }
         .padding()
     }
@@ -72,19 +121,4 @@ struct CustomizeView: View {
 #Preview(windowStyle: .automatic, traits: .sizeThatFitsLayout) {
     CustomizeView()
         .environment(AppState())
-}
-
-struct DurationButton: View {
-    var label: String
-    var isSelected: Bool
-    
-    var body: some View {
-        Text(label)
-//            .padding()
-//            .frame(width: 100)
-//            .background(isSelected ? Color.gray : Color.clear)
-//            .cornerRadius(10)
-//            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.gray, lineWidth: 1))
-//            .foregroundColor(.black)
-    }
 }
