@@ -23,6 +23,10 @@ class VisionProPose: ObservableObject {
         }
     }
     
+    func stopARKitSession() {
+        arkitSession.stop()
+    }
+    
     func queryDeviceRoll() async -> Double? {
         
         // Wait until the worldTracking state is running

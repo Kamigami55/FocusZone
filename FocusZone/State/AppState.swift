@@ -52,4 +52,8 @@ class AppState {
     var detectSound: Bool = true
 
     let countdownTimer = CountdownTimerViewModel()
+
+    var soundLevelThreshold: Float = -20.0
+
+    let soundLevelDetector = SoundLevelDetector()
 }

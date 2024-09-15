@@ -60,9 +60,34 @@ struct PostDetectView: View {
             }
         }.onAppear() {
             Task {
+                // Head movement detector
                 await visionProPose.runARKitSession()
-                print("Post Detect View Appeared")
+                print("Head movement started")
+                
+                // Sound detector
+                appState.soundLevelDetector.onExceedThreshold = { level in
+                    if level > appState.soundLevelThreshold {
+                        if (appState.lastDistractionTime == nil || Date() > (appState.lastDistractionTime?
+                                    .addingTimeInterval(5))!
+                            )
+                        {
+                            appState.activeDistraction = .sound
+                            appState.isShowingDistractionAlert = true
+                        }
+                    }
+                }
+                appState.soundLevelDetector.startMonitoring()
+                print("Sound detection started")
             }
+        }
+        .onDisappear {
+            // Head movement detector
+            visionProPose.stopARKitSession()
+            print("Head movement stopped")
+
+            // Sound detector
+            appState.soundLevelDetector.stopMonitoring()
+            print("Sound detection stopped")
         }
     }
 }

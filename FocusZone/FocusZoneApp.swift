@@ -109,7 +109,7 @@ struct FocusZoneApp: App {
                     .environment(appState)
             }
         }
-        .immersionStyle(selection: .constant(.mixed), in: .mixed)
+        .immersionStyle(selection: .constant(.progressive), in: .progressive)
         .immersiveContentBrightness(
             appState.selectedImmersiveSpaceId == .transparent ? .dim : .automatic
         )

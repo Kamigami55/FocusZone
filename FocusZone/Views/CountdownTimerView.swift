@@ -138,6 +138,18 @@ struct CountdownTimerView: View {
         }, message: {
             Text("You finished a \(appState.selectedFocusTimeLength / 60) minitus focus time.")
         })
+        .onAppear {
+            appState.soundLevelDetector.onExceedThreshold = { level in
+                if level > appState.soundLevelThreshold {
+                    appState.activeDistraction = .sound
+                    appState.isShowingDistractionAlert = true
+                }
+            }
+            appState.soundLevelDetector.startMonitoring()
+        }
+        .onDisappear {
+            appState.soundLevelDetector.stopMonitoring()
+        }
     }
 }
 
