@@ -21,7 +21,7 @@ A Vision OS app that helps you focus on your work.
 
 ## Demo
 
-[Demo Video](./screenshots/demo.mov)
+[Demo Video](./screenshots/demo-video.mp4)
 
 ## Screenshots
 
