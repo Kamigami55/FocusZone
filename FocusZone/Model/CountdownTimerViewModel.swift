@@ -22,12 +22,51 @@ class CountdownTimerViewModel: ObservableObject {
         Date() > endDate
     }
     
+    @Published var isRunning: Bool = false
+    private var startDate: Date?
+    private var pausedTimeRemaining: TimeInterval?
+    
     init(endDate: String) {
         self.endDate =  parseDate(endDate)
         updateTimer()
     }
     
+    func startCountdown(numSecs: Int) {
+        startDate = Date()
+        endDate = startDate!.addingTimeInterval(TimeInterval(numSecs))
+        isRunning = true
+        pausedTimeRemaining = nil
+        updateTimer()
+    }
+    
+    func pauseCountdown() {
+        guard isRunning else { return }
+        isRunning = false
+        pausedTimeRemaining = endDate.timeIntervalSince(Date())
+    }
+    
+    func resumeCountdown() {
+        guard !isRunning, let remaining = pausedTimeRemaining else { return }
+        startDate = Date()
+        endDate = startDate!.addingTimeInterval(remaining)
+        isRunning = true
+        pausedTimeRemaining = nil
+    }
+    
+    func terminateCountdown() {
+        isRunning = false
+        startDate = nil
+        endDate = Date()
+        pausedTimeRemaining = nil
+        day = 0
+        hour = 0
+        minute = 0
+        second = 0
+    }
+    
     func updateTimer() {
+        guard isRunning else { return }
+        
         let calendar = Calendar(identifier: .gregorian)
         let timeValue = calendar.dateComponents(
             [.day, .hour, .minute, .second],
@@ -44,10 +83,8 @@ class CountdownTimerViewModel: ObservableObject {
             self.hour = hour
             self.minute = minute
             self.second = second
-            
-//            progress = Float(endDate.timeIntervalSinceCurrentDate / initialTimeRemaining)
         } else {
-//            progress = 0.0
+            terminateCountdown()
         }
     }
     
