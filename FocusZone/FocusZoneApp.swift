@@ -48,6 +48,7 @@ struct FocusZoneApp: App {
                 }
         }
         .windowResizability(.contentSize)
+        .persistentSystemOverlays(.hidden)
         .defaultSize(width: 0, height: 0)  // Initial size, will be overridden by content
 
         ImmersiveSpace(id: appState.immersiveSpaceViewID) {
