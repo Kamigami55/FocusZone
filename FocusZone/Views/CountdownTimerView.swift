@@ -14,13 +14,14 @@ struct CountdownTimerView: View {
 
     @Environment(AppState.self) private var appState
     @StateObject private var viewModel: CountdownTimerViewModel
-    @State private var isShowingAlert: Bool = false
 
     init(appState: AppState) {
         self._viewModel = StateObject(wrappedValue: appState.countdownTimer)
     }
     
     var body: some View {
+        @Bindable var appState = appState
+
         VStack(spacing: 16) {
             HStack {
                 Text(String(format: "%02d", viewModel.minute))
@@ -33,27 +34,12 @@ struct CountdownTimerView: View {
             
             HStack (spacing: 16) {
                 Button(action: {
-                    isShowingAlert = true
+                    appState.isShowingConfirmStopAlert = true
                 }) {
                     Image(systemName: "stop.fill")
                 }
                 .buttonBorderShape(.circle)
                 .disabled(!viewModel.isRunning && viewModel.pausedTimeRemaining == nil)
-                .alert(Text("Confirm leaving"), isPresented: $isShowingAlert, actions: {
-                    Button("Leave") {
-                        Task {
-                            viewModel.terminateCountdown()
-                            await dismissImmersiveSpace()
-                            dismissWindow(id: appState.countdownViewID)
-                            openWindow(id: appState.homeViewID)
-                        }
-                    }
-                    Button("Continue", role: .cancel) {
-                        isShowingAlert = false
-                    }
-                }, message: {
-                    Text("If you leave, the timer will restart next time.")
-                })
                 
                 if viewModel.isRunning {
                     Button(action: {
@@ -72,6 +58,45 @@ struct CountdownTimerView: View {
                 }
             }
         }
+        .alert(Text("Confirm leaving"), isPresented: $appState.isShowingConfirmStopAlert, actions: {
+            Button("Leave", role: .destructive) {
+                Task {
+                    viewModel.terminateCountdown()
+                    appState.isShowingConfirmStopAlert = false
+                    dismissWindow(id: appState.countdownViewID)
+                    await dismissImmersiveSpace()
+                }
+            }
+            Button("Continue", role: .cancel) {
+                appState.isShowingConfirmStopAlert = false
+            }
+        }, message: {
+            Text("If you leave, the timer will restart next time.")
+        })
+        .alert(Text("Congratulations!"), isPresented: $appState.isShowingFinishAlert, actions: {
+            Button("Start another focus") {
+                Task {
+                    appState.isShowingFinishAlert = false
+                    appState.countdownTimer.startCountdown(numSecs: appState.selectedFocusTimeLength * 60)
+                    dismissWindow(id: appState.homeViewID)
+                    openWindow(id: appState.countdownViewID)
+                }
+            }
+            .disabled(appState.immersiveSpaceState == .inTransition)
+            Button("Done", role: .cancel) {
+                Task {
+                    appState.isShowingFinishAlert = false
+                    appState.countdownTimer.terminateCountdown()
+                    appState.immersiveSpaceState = .inTransition
+                    await dismissImmersiveSpace()
+                    dismissWindow(id: appState.countdownViewID)
+                    openWindow(id: appState.homeViewID)
+                }
+            }
+            .disabled(appState.immersiveSpaceState == .inTransition)
+        }, message: {
+            Text("You finished a \(appState.selectedFocusTimeLength) minitus focus time.")
+        })
     }
 }
 

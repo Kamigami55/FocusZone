@@ -28,6 +28,8 @@ class AppState {
 
     var isShowingCustomizeView: Bool = false
     var isShowingCountdownView: Bool = false
+    var isShowingConfirmStopAlert: Bool = false
+    var isShowingFinishAlert: Bool = false
 
     var immersiveSpaceState = ImmersiveSpaceState.closed
     
