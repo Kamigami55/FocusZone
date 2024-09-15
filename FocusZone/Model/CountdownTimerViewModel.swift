@@ -24,15 +24,13 @@ class CountdownTimerViewModel: ObservableObject {
     @Published var pausedTimeRemaining: TimeInterval?
 
     var hasCountdownCompleted: Bool {
-        Date() > endDate
+        Date() >= endDate
     }
 
     init() {}
     
     func startCountdown(numSecs: Int) {
-        print("Starting countdown for \(numSecs) seconds") // Debug print
-        startDate = Date()
-        endDate = startDate!.addingTimeInterval(TimeInterval(numSecs))
+        endDate = Date().addingTimeInterval(TimeInterval(numSecs))
         isRunning = true
         pausedTimeRemaining = nil
         updateTimer()
@@ -67,27 +65,15 @@ class CountdownTimerViewModel: ObservableObject {
         guard isRunning else { return }
         
         let now = Date()
-        print("Updating timer. Current time: \(now), End time: \(endDate)") // Debug print
-        
-        let calendar = Calendar(identifier: .gregorian)
-        let timeValue = calendar.dateComponents(
-            [.day, .hour, .minute, .second],
-            from: now,
-            to: endDate
-        )
-        
-        if now < endDate,
-           let day = timeValue.day,
-           let hour = timeValue.hour,
-           let minute = timeValue.minute,
-           let second = timeValue.second {
-            self.day = day
-            self.hour = hour
-            self.minute = minute
-            self.second = second
-            print("Updated time: \(day)d \(hour)h \(minute)m \(second)s") // Debug print
+        if now < endDate {
+            let remaining = endDate.timeIntervalSince(now)
+            let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: now, to: endDate)
+            
+            day = components.day ?? 0
+            hour = components.hour ?? 0
+            minute = components.minute ?? 0
+            second = components.second ?? 0
         } else {
-            print("Countdown completed or invalid") // Debug print
             terminateCountdown()
         }
     }
