@@ -136,7 +136,7 @@ struct CountdownTimerView: View {
             }
             .disabled(appState.immersiveSpaceState == .inTransition)
         }, message: {
-            Text("You finished a \(appState.selectedFocusTimeLength / 60) minitus focus time.")
+            Text(appState.selectedFocusTimeLength >= 60 ? "You finished a \(appState.selectedFocusTimeLength / 60) minitus focus time." : "You finished a \(appState.selectedFocusTimeLength) seconds focus time.")
         })
         .onAppear {
             appState.soundLevelDetector.onExceedThreshold = { level in

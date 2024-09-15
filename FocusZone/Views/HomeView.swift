@@ -30,7 +30,7 @@ struct HomeView: View {
                     appState.isShowingCustomizeView = true
                 }) {
                     HStack {
-                        Text("\(appState.selectedFocusTimeLength / 60) mins")
+                        Text(appState.selectedFocusTimeLength >= 60 ? "\(appState.selectedFocusTimeLength / 60) mins" : "\(appState.selectedFocusTimeLength) secs")
                         Image(systemName: "chevron.right")
                     }
                     .frame(maxWidth: .infinity)

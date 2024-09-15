@@ -43,7 +43,7 @@ struct CustomizeView: View {
                 Picker("Focus Time Length",
                        selection: $appState.selectedFocusTimeLength) {
                     ForEach(focusTimeLengthOptions, id: \.self) { timeLength in
-                        Text("\(timeLength / 60) mins")
+                        Text(timeLength >= 60 ? "\(timeLength / 60) mins" : "\(timeLength) secs")
                     }
                 }
                        .pickerStyle(.segmented)
