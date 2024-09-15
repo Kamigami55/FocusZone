@@ -83,7 +83,7 @@ class CountdownTimerViewModel: ObservableObject {
         guard isRunning else { return }
         
         let now = Date()
-        print("Updating timer. Current time: \(now), End time: \(endDate)") // Debug print
+//        print("Updating timer. Current time: \(now), End time: \(endDate)") // Debug print
         
         if now < endDate {
             let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: now, to: endDate)
@@ -92,7 +92,7 @@ class CountdownTimerViewModel: ObservableObject {
             hour = components.hour ?? 0
             minute = components.minute ?? 0
             second = components.second ?? 0
-            print("Updated time: \(minute)m \(second)s") // Debug print
+//            print("Updated time: \(minute)m \(second)s") // Debug print
         } else {
             print("Countdown completed") // Debug print
             terminateCountdown()

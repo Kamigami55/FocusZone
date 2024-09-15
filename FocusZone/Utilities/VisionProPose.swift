@@ -51,7 +51,7 @@ class VisionProPose: ObservableObject {
             
             return zRotationDegrees
         } else {
-            print("No device anchor found")
+//            print("No device anchor found")
             return nil
         }
     }

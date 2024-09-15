@@ -22,8 +22,11 @@ struct FocusZoneApp: App {
     /// An object that stores the app's level of immersion.
     @State private var immersiveEnvironment = ImmersiveEnvironment()
     
+    @Environment(\.scenePhase) private var scenePhase
+
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
+
     @GestureState private var longPressState: LongPressState = .inactive
     var longPress: some Gesture {
         LongPressGesture(minimumDuration: 0.5)
@@ -62,6 +65,30 @@ struct FocusZoneApp: App {
                 .sheet(isPresented: $appState.isShowingCustomizeView) {
                     CustomizeView()
                         .environment(appState)
+                }
+                .task {
+                    if appState.allRequiredProvidersAreSupported {
+                        await appState.referenceObjectLoader.loadBuiltInReferenceObjects()
+                    }
+                }
+                .onChange(of: scenePhase, initial: true) {
+                    print("HomeView scene phase: \(scenePhase)")
+                    if scenePhase == .active {
+                        Task {
+                            // When returning from the background, check if the authorization has changed.
+                            await appState.queryWorldSensingAuthorization()
+                        }
+                    } else {
+                        // Make sure to leave the immersive space if this view is no longer active
+                        // - such as when a person closes this view - otherwise they may be stuck
+                        // in the immersive space without the controls this view provides.
+                        if appState.immersiveSpaceState == .open {
+                            Task {
+//                                await dismissImmersiveSpace()
+                                appState.didLeaveImmersiveSpace()
+                            }
+                        }
+                    }
                 }
         }
         .windowResizability(.contentSize)
@@ -102,6 +129,18 @@ struct FocusZoneApp: App {
                     appState.countdownTimer.pauseCountdown()
                     dismissWindow(id: appState.countdownViewID)
                     openWindow(id: appState.homeViewID)
+                }
+                .task {
+                    // Ask for authorization before a person attempts to open the immersive space.
+                    // This gives the app opportunity to respond gracefully if authorization isn't granted.
+                    if appState.allRequiredProvidersAreSupported {
+                        await appState.requestWorldSensingAuthorization()
+                    }
+                }
+                .task {
+                    // Start monitoring for changes in authorization, in case a person brings the
+                    // Settings app to the foreground and changes authorizations there.
+                    await appState.monitorSessionEvents()
                 }
             
             if (appState.selectedImmersiveSpaceId == .space) {

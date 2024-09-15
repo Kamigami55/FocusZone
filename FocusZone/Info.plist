@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Need microphone access for detect sound distraction</string>
+	<key>NSWorldSensingUsageDescription</key>
+	<string>Scan your environment to detect phone distraction</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Need microphone access for detect sound distraction</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationPreferredDefaultSceneSessionRole</key>

@@ -30,7 +30,7 @@ class SoundLevelDetector: ObservableObject {
             timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
                 self.audioRecorder?.updateMeters()
                 self.soundLevel = self.audioRecorder?.averagePower(forChannel: 0) ?? 0.0
-                print("Sound level: \(self.soundLevel)")
+//                print("Sound level: \(self.soundLevel)")
                 if let onExceedThreshold = self.onExceedThreshold {
                     onExceedThreshold(self.soundLevel)
                 }
