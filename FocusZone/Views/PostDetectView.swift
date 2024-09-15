@@ -61,6 +61,15 @@ struct PostDetectView: View {
                     
                     switch anchorUpdate.event {
                     case .added:
+                        print("PHONE ADDED")
+                        if (appState.lastDistractionTime == nil || Date() > (appState.lastDistractionTime?
+                            .addingTimeInterval(5))!
+                        )
+                        {
+                            appState.activeDistraction = .phone
+                            appState.isShowingDistractionAlert = true
+                        }
+
                         // Create a new visualization for the reference object that ARKit just detected.
                         // The app displays the USDZ file that the reference object was trained on as
                         // a wireframe on top of the real-world object, if the .referenceobject file contains
@@ -70,6 +79,15 @@ struct PostDetectView: View {
                         self.objectVisualizations[id] = visualization
                         root.addChild(visualization.entity)
                     case .updated:
+                        print("PHONE UPDATED")
+                        if (appState.lastDistractionTime == nil || Date() > (appState.lastDistractionTime?
+                            .addingTimeInterval(5))!
+                        )
+                        {
+                            appState.activeDistraction = .phone
+                            appState.isShowingDistractionAlert = true
+                        }
+
                         objectVisualizations[id]?.update(with: anchor)
                     case .removed:
                         objectVisualizations[id]?.entity.removeFromParent()
