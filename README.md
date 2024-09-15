@@ -4,18 +4,19 @@ A Vision OS app that helps you focus on your work.
 
 ## Features
 
-- Phone appearance detection
-- Loud sound detection
-- Head movement detection
 - Pomodoro style countdown timer
+- Distraction detection
+  - Phone appearance detection
+  - Loud sound detection
+  - Head movement detection
 - Customizable immersive spaces
 
 ## Technologies
 
 - Vision OS 2
 - SwiftUI
-- ARKit
 - RealityKit
+- ARKit
 - Create ML Object Detection
 
 ## Screenshots
@@ -37,3 +38,8 @@ Exit focus earlier confirmation:
 
 Focus complete:
 ![Screenshot 6](./screenshots/6.png)
+
+## Authors
+
+- Eason Chang: Developer
+- Carol Hsiao: Designer
