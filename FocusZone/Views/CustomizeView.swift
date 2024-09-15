@@ -22,7 +22,7 @@ struct CustomizeView: View {
     var body: some View {
         @Bindable var appState = appState
 
-        VStack(spacing: 20) {
+        VStack(alignment: .leading, spacing: 20) {
             HStack {
                 Button(action: {
                     appState.isShowingCustomizeView = false
@@ -32,13 +32,19 @@ struct CustomizeView: View {
                 .buttonBorderShape(.circle)
                 
                 Spacer()
-                Text("Customize").font(.title)
+                Text("Customize focus experience").font(.title)
                 Spacer()
+                VStack {}.frame(width: 32, height: 32)
             }
 
             VStack(alignment: .leading) {
-                Text("Focus duration")
-                    .font(.subheadline)
+                HStack {
+                    Image(systemName: "clock")
+                        .fontWeight(.light)
+                    Text("Focus duration")
+                        .fontWeight(.bold)
+                        .font(.subheadline)
+                }.padding(.bottom, 12)
 
                 Picker("Focus Time Length",
                        selection: $appState.selectedFocusTimeLength) {
@@ -52,10 +58,15 @@ struct CustomizeView: View {
             Divider()
             
             VStack(alignment: .leading) {
-                Text("Choose background")
-                    .font(.subheadline)
+                HStack {
+                    Image(systemName: "mountain.2")
+                        .font(.system(size: 10))
+                    Text("Immersive environment")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                }
                 
-                HStack(spacing: 24) {
+                HStack {
                     Button(action: {
                         appState.selectedImmersiveSpaceId = .space
                     }) {
@@ -74,6 +85,8 @@ struct CustomizeView: View {
                     }
                     .buttonStyle(.plain)
                     .buttonBorderShape(.roundedRectangle(radius: 16))
+                    .padding(.vertical, -16)
+                    .frame(width: 120, height: 160)
                     
                     Button(action: {
                         appState.selectedImmersiveSpaceId = .transparent
@@ -88,15 +101,23 @@ struct CustomizeView: View {
                     }
                     .buttonStyle(.plain)
                     .buttonBorderShape(.roundedRectangle(radius: 16))
+                    .padding(.vertical, -16)
+                    .frame(width: 120, height: 160)
                 }
-            }
+                .frame(width: .infinity)
+            }.frame(width: .infinity)
 
             Divider()
 
             VStack(alignment: .leading) {
-                Text("Detect distraction")
-                    .font(.subheadline)
-                
+                HStack {
+                    Image(systemName: "moon")
+                        .font(.system(size: 14))
+                    Text("Distraction detection")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                }.padding(.bottom, 12)
+
                 Form {
                     Toggle(isOn: $appState.detectHeadMovement) {
                         Text("Head movement")
@@ -111,17 +132,19 @@ struct CustomizeView: View {
                         Text("Receive warning when speaking")
                     }
                 }
+                .frame(height: 200)
+                .padding(.horizontal, -20)
             }
             
 
             ToggleImmersiveSpaceButton(text: "Start focus")
                 .environment(appState)
         }
-        .padding()
+        .padding(EdgeInsets(top: 32, leading: 24, bottom: 32, trailing: 24))
     }
 }
 
-#Preview(windowStyle: .automatic, traits: .sizeThatFitsLayout) {
+#Preview(windowStyle: .automatic) {
     CustomizeView()
         .environment(AppState())
 }
