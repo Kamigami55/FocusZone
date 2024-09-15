@@ -89,46 +89,58 @@ struct PostDetectView: View {
             }
         }.onAppear() {
             Task {
-                // Head movement detector
-                await visionProPose.runARKitSession()
-                print("Head movement started")
+                if (appState.detectHeadMovement) {
+                    // Head movement detector
+                    await visionProPose.runARKitSession()
+                    print("Head movement started")
+                }
                 
-                // Sound detector
-                appState.soundLevelDetector.onExceedThreshold = { level in
-                    if level > appState.soundLevelThreshold {
-                        if (appState.lastDistractionTime == nil || Date() > (appState.lastDistractionTime?
-                                    .addingTimeInterval(5))!
+                if (appState.detectSound) {
+                    // Sound detector
+                    appState.soundLevelDetector.onExceedThreshold = { level in
+                        if level > appState.soundLevelThreshold {
+                            if (appState.lastDistractionTime == nil || Date() > (appState.lastDistractionTime?
+                                .addingTimeInterval(5))!
                             )
-                        {
-                            appState.activeDistraction = .sound
-                            appState.isShowingDistractionAlert = true
+                            {
+                                appState.activeDistraction = .sound
+                                appState.isShowingDistractionAlert = true
+                            }
                         }
                     }
+                    appState.soundLevelDetector.startMonitoring()
+                    print("Sound detection started")
                 }
-                appState.soundLevelDetector.startMonitoring()
-                print("Sound detection started")
                 
-                // Phone detector
-                await appState.queryWorldSensingAuthorization()
-                print("Phone detection started")
+                if (appState.detectPhone) {
+                    // Phone detector
+                    await appState.queryWorldSensingAuthorization()
+                    print("Phone detection started")
+                }
             }
         }
         .onDisappear {
-            // Head movement detector
-            visionProPose.stopARKitSession()
-            print("Head movement stopped")
-
-            // Sound detector
-            appState.soundLevelDetector.stopMonitoring()
-            print("Sound detection stopped")
-            
-            // Phone detector
-            for (_, visualization) in objectVisualizations {
-                root.removeChild(visualization.entity)
+            if (appState.detectHeadMovement) {
+                // Head movement detector
+                visionProPose.stopARKitSession()
+                print("Head movement stopped")
             }
-            objectVisualizations.removeAll()
-            appState.didLeaveImmersiveSpace()
-            print("Phone detector stopped")
+
+            if (appState.detectSound) {
+                // Sound detector
+                appState.soundLevelDetector.stopMonitoring()
+                print("Sound detection stopped")
+            }
+            
+            if (appState.detectPhone) {
+                // Phone detector
+                for (_, visualization) in objectVisualizations {
+                    root.removeChild(visualization.entity)
+                }
+                objectVisualizations.removeAll()
+                appState.didLeaveImmersiveSpace()
+                print("Phone detector stopped")
+            }
         }
 //        .task {
 //            // Ask for authorization before a person attempts to open the immersive space.
