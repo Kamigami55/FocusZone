@@ -9,7 +9,8 @@ import SwiftUI
 import RealityKit
 
 struct PostDetectView: View {
-    
+    @Environment(AppState.self) private var appState
+
     // Load vision pro pose
     @StateObject private var visionProPose = VisionProPose()
     
@@ -25,24 +26,34 @@ struct PostDetectView: View {
 //                        print("currentHeadRoll: \(currentHeadRoll)")
                         // Head roll is more than 14 degrees in either direction
                         if abs(currentHeadRoll) > 14 {
-                            
-                            // Default to left
-                            var tiltDirection = "left"
-                            
-                            // But could be right
-                            if currentHeadRoll > 14 {
-                                tiltDirection = "right"
+                            // Tilt left or right
+                            if (
+                                !appState.isShowingDistractionAlert
+                                && (
+                                    appState.lastDistractionTime == nil || Date() > (appState.lastDistractionTime?
+                                        .addingTimeInterval(5))!
+                                )
+                            ) {
+                                appState.activeDistraction = .headMovement
+                                appState.isShowingDistractionAlert = true
                             }
-                            
-                            // Do something with head tilt
-                            switch tiltDirection {
-                            case "left":
-                                print("Head tilting left!")
-                            case "right":
-                                print("Head tilting right!")
-                            default:
-                                break
-                            }
+//                            // Default to left
+//                            var tiltDirection = "left"
+//                            
+//                            // But could be right
+//                            if currentHeadRoll > 14 {
+//                                tiltDirection = "right"
+//                            }
+//                            
+//                            // Do something with head tilt
+//                            switch tiltDirection {
+//                            case "left":
+//                                print("Head tilting left!")
+//                            case "right":
+//                                print("Head tilting right!")
+//                            default:
+//                                break
+//                            }
                         }
                     }
                 }

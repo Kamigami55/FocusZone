@@ -18,6 +18,12 @@ enum ImmersiveSpaceState {
     case open
 }
 
+enum DistractionType {
+    case headMovement
+    case phone
+    case sound
+}
+
 /// Maintains app-wide state
 @MainActor
 @Observable
@@ -28,6 +34,11 @@ class AppState {
 
     var isShowingCustomizeView: Bool = false
     var isShowingCountdownView: Bool = false
+
+    var lastDistractionTime: Date? = nil
+    var activeDistraction: DistractionType? = nil
+    var isShowingDistractionAlert: Bool = false
+
     var isShowingConfirmStopAlert: Bool = false
     var isShowingFinishAlert: Bool = false
 

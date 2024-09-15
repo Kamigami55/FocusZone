@@ -85,6 +85,7 @@ struct FocusZoneApp: App {
 
         ImmersiveSpace(id: appState.immersiveSpaceViewID) {
             PostDetectView()
+                .environment(appState)
                 .onAppear {
                     appState.immersiveSpaceState = .open
                     if (appState.countdownTimer.isRunning) {

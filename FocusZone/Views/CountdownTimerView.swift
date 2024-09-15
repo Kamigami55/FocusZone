@@ -7,6 +7,33 @@
 
 import SwiftUI
 
+func getDistractionAlertTitle(distractionType: DistractionType?) -> String {
+    switch distractionType {
+    case .headMovement:
+        return "Head movement detected"
+    case .phone:
+        return "Phone detected"
+    case .sound:
+        return "Sound detected"
+    default:
+        return "Distraction detected"
+    }
+}
+
+func getDistractionAlertBody(distractionType: DistractionType?) -> String {
+    switch distractionType {
+    case .headMovement:
+        return "Move your head back to focus area"
+    case .phone:
+        return "Put your phone away"
+    case .sound:
+        return "Please stop talking and go back to work"
+    default:
+        return "Please back to focus"
+    }
+}
+
+
 struct CountdownTimerView: View {
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
@@ -64,6 +91,16 @@ struct CountdownTimerView: View {
                 viewModel.isFinished = false  // Reset the flag
             }
         }
+
+        .alert(Text(getDistractionAlertTitle(distractionType: appState.activeDistraction)), isPresented: $appState.isShowingDistractionAlert, actions: {
+            Button("Stay focus") {
+                appState.lastDistractionTime = Date()
+                appState.isShowingDistractionAlert = false
+            }
+        }, message: {
+            Text(getDistractionAlertTitle(distractionType: appState.activeDistraction))
+        })
+
         .alert(Text("Confirm leaving"), isPresented: $appState.isShowingConfirmStopAlert, actions: {
             Button("Leave", role: .destructive) {
                 Task {
@@ -79,6 +116,7 @@ struct CountdownTimerView: View {
         }, message: {
             Text("If you leave, the timer will restart next time.")
         })
+
         .alert(Text("Congratulations!"), isPresented: $appState.isShowingFinishAlert, actions: {
             Button("Start another focus") {
                 Task {
