@@ -12,8 +12,6 @@ class CountdownTimerViewModel: ObservableObject {
     // These will be used to store the current value of
     // the unit on the clock, which then notifies the view
     // of a change to display when the original value is updated
-    @Published var day: Int = 0
-    @Published var hour: Int = 0
     @Published var minute: Int = 0
     @Published var second: Int = 0
     
@@ -55,8 +53,6 @@ class CountdownTimerViewModel: ObservableObject {
         startDate = nil
         endDate = Date()
         pausedTimeRemaining = nil
-        day = 0
-        hour = 0
         minute = 0
         second = 0
     }
@@ -66,11 +62,8 @@ class CountdownTimerViewModel: ObservableObject {
         
         let now = Date()
         if now < endDate {
-            let remaining = endDate.timeIntervalSince(now)
             let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: now, to: endDate)
             
-            day = components.day ?? 0
-            hour = components.hour ?? 0
             minute = components.minute ?? 0
             second = components.second ?? 0
         } else {

@@ -19,53 +19,12 @@ struct CountdownTimerView: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                VStack(spacing: 8) {
-                    Text(String(format: "%02d", appState.countdownTimer.day))
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(.red)
-                    Text("day")
-                        .textCase(.uppercase)
-                        .font(.system(size: 11))
-                }
-                VStack(spacing: 8) {
-                    colon
-                    Spacer()
-                        .frame(height: 15)
-                }
-                VStack(spacing: 8) {
-                    Text(String(format: "%02d", appState.countdownTimer.hour))
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(.red)
-                    Text("hour")
-                        .textCase(.uppercase)
-                        .font(.system(size: 11))
-                }
-                VStack(spacing: 8) {
-                    colon
-                    Spacer()
-                        .frame(height: 15)
-                }
-                VStack(spacing: 8) {
-                    Text(String(format: "%02d", appState.countdownTimer.minute))
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(.red)
-                    Text("min")
-                        .textCase(.uppercase)
-                        .font(.system(size: 11))
-                }
-                VStack(spacing: 8) {
-                    colon
-                    Spacer()
-                        .frame(height: 15)
-                }
-                VStack(spacing: 8) {
-                    Text(String(format: "%02d", appState.countdownTimer.second))
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(.red)
-                    Text("sec")
-                        .textCase(.uppercase)
-                        .font(.system(size: 11))
-                }
+                Text(String(format: "%02d", appState.countdownTimer.minute))
+                    .font(.system(size: 22, weight: .bold))
+                Text(":")
+                    .font(.system(size: 22, weight: .bold))
+                Text(String(format: "%02d", appState.countdownTimer.second))
+                    .font(.system(size: 22, weight: .bold))
             }
             
             Button("Start \(appState.selectedFocusTimeLength) min countdown") {
@@ -74,31 +33,33 @@ struct CountdownTimerView: View {
             .disabled(appState.countdownTimer.isRunning)
             
             if appState.countdownTimer.isRunning {
-                Button("Pause") {
+                Button(action: {
                     appState.countdownTimer.pauseCountdown()
+                }) {
+                    Image(systemName: "pause.fill")
                 }
+                .buttonBorderShape(.circle)
             } else if appState.countdownTimer.pausedTimeRemaining != nil {
-                Button("Resume") {
+                Button(action: {
                     appState.countdownTimer.resumeCountdown()
+                }) {
+                    Image(systemName: "play.fill")
                 }
+                .buttonBorderShape(.circle)
             }
             
-            Button("Terminate") {
+            Button(action: {
                 appState.countdownTimer.terminateCountdown()
+            }) {
+                Image(systemName: "stop.fill")
             }
+            .buttonBorderShape(.circle)
             .disabled(!appState.countdownTimer.isRunning && appState.countdownTimer.pausedTimeRemaining == nil)
+            
         }
         .onReceive(timer) { _ in
             appState.countdownTimer.updateTimer()
         }
-    }
-}
-
-extension CountdownTimerView {
-    private var colon: some View {
-        Text(":")
-            .font(.system(size: 22, weight: .bold))
-            .foregroundColor(.red)
     }
 }
 
