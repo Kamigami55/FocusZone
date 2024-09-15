@@ -10,12 +10,6 @@ import SwiftUI
 struct CountdownTimerView: View {
     @Environment(AppState.self) private var appState
     
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    
-    private var hasCountdownCompleted: Bool {
-        appState.countdownTimer.hasCountdownCompleted
-    }
-    
     var body: some View {
         VStack(spacing: 16) {
             HStack {
@@ -55,10 +49,6 @@ struct CountdownTimerView: View {
             }
             .buttonBorderShape(.circle)
             .disabled(!appState.countdownTimer.isRunning && appState.countdownTimer.pausedTimeRemaining == nil)
-            
-        }
-        .onReceive(timer) { _ in
-            appState.countdownTimer.updateTimer()
         }
     }
 }

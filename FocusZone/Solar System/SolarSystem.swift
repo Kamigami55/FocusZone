@@ -21,12 +21,6 @@ struct SolarSystem: View {
 
             SplineVolumetricContent(sceneFileURL: url)
         }
-        .onAppear {
-            appState.isShowingSolar = true
-        }
-        .onDisappear {
-            appState.isShowingSolar = false
-        }
     }
 }
 

@@ -20,9 +20,9 @@ struct PostDetectView: View {
             _ =  content.subscribe(to: SceneEvents.Update.self) { event in
                 
                 Task {
-                    print("starting post detection")
+//                    print("starting post detection")
                     if let currentHeadRoll = await visionProPose.queryDeviceRoll() {
-                        print("currentHeadRoll: \(currentHeadRoll)")
+//                        print("currentHeadRoll: \(currentHeadRoll)")
                         // Head roll is more than 14 degrees in either direction
                         if abs(currentHeadRoll) > 14 {
                             

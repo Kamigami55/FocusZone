@@ -29,7 +29,7 @@ struct ToggleImmersiveSpaceButton: View {
                     case .closed:
                         appState.immersiveSpaceState = .inTransition
                         switch await openImmersiveSpace(
-                            id: appState.selectedImmersiveSpaceId.rawValue
+                            id: appState.immersiveSpaceViewID
                         ) {
                             case .opened:
                                 // Don't set immersiveSpaceState to .open because there
