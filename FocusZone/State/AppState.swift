@@ -83,7 +83,9 @@ class AppState {
         let referenceObjects = referenceObjectLoader.enabledReferenceObjects
         
         guard !referenceObjects.isEmpty else {
-            fatalError("No reference objects to start tracking")
+//            fatalError("No reference objects to start tracking")
+            print("No reference objects to start tracking")
+            return nil
         }
         
         // Run a new provider every time when entering the immersive space.
