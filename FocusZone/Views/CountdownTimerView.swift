@@ -60,14 +60,6 @@ struct CountdownTimerView: View {
             }
             
             HStack (spacing: 16) {
-                Button(action: {
-                    appState.isShowingConfirmStopAlert = true
-                }) {
-                    Image(systemName: "stop.fill")
-                }
-                .buttonBorderShape(.circle)
-                .disabled(!viewModel.isRunning && viewModel.pausedTimeRemaining == nil)
-                
                 if viewModel.isRunning {
                     Button(action: {
                         viewModel.pauseCountdown()
@@ -76,6 +68,14 @@ struct CountdownTimerView: View {
                     }
                     .buttonBorderShape(.circle)
                 } else if viewModel.pausedTimeRemaining != nil {
+                    Button(action: {
+                        appState.isShowingConfirmStopAlert = true
+                    }) {
+                        Image(systemName: "stop.fill")
+                    }
+                    .buttonBorderShape(.circle)
+                    .disabled(!viewModel.isRunning && viewModel.pausedTimeRemaining == nil)
+
                     Button(action: {
                         viewModel.resumeCountdown()
                     }) {
@@ -102,7 +102,7 @@ struct CountdownTimerView: View {
         })
 
         .alert(Text("Confirm leaving"), isPresented: $appState.isShowingConfirmStopAlert, actions: {
-            Button("Leave", role: .destructive) {
+            Button("Stop focusing", role: .destructive) {
                 Task {
                     viewModel.terminateCountdown()
                     appState.isShowingConfirmStopAlert = false
@@ -110,7 +110,7 @@ struct CountdownTimerView: View {
                     await dismissImmersiveSpace()
                 }
             }
-            Button("Continue", role: .cancel) {
+            Button("Stay focused", role: .cancel) {
                 appState.isShowingConfirmStopAlert = false
             }
         }, message: {

@@ -121,15 +121,15 @@ struct CustomizeView: View {
                 Form {
                     Toggle(isOn: $appState.detectHeadMovement) {
                         Text("Head movement")
-                        Text("Receive warning when moving your head")
+                        Text("Receive warning when your head is tilted")
                     }
                     Toggle(isOn: $appState.detectPhone) {
                         Text("Phone detection")
-                        Text("Receive warning when touching your phone")
+                        Text("Receive warning when your phone is visible")
                     }
                     Toggle(isOn: $appState.detectSound) {
                         Text("Sound detection")
-                        Text("Receive warning when speaking")
+                        Text("Receive warning when you are speaking")
                     }
                 }
                 .frame(height: 200)
