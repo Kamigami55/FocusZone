@@ -27,6 +27,7 @@ struct ToggleImmersiveSpaceButton: View {
                         // Only set .closed in ImmersiveView.onDisappear().
 
                     case .closed:
+                        appState.isShowingCustomizeView = false
                         appState.immersiveSpaceState = .inTransition
                         switch await openImmersiveSpace(
                             id: appState.immersiveSpaceViewID

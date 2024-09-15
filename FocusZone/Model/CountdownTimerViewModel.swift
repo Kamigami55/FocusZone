@@ -22,6 +22,8 @@ class CountdownTimerViewModel: ObservableObject {
 
     @Published var isRunning: Bool = false
     @Published var pausedTimeRemaining: TimeInterval?
+    
+    @Published var isFinished: Bool = false
 
     private var timer: Timer?
 
@@ -45,6 +47,7 @@ class CountdownTimerViewModel: ObservableObject {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.updateTimer()
         }
+        isFinished = false
     }
     
     func pauseCountdown() {
@@ -59,6 +62,7 @@ class CountdownTimerViewModel: ObservableObject {
         startDate = Date()
         endDate = startDate!.addingTimeInterval(remaining)
         isRunning = true
+        isFinished = false
         pausedTimeRemaining = nil
         startTimer()
     }
@@ -92,6 +96,7 @@ class CountdownTimerViewModel: ObservableObject {
         } else {
             print("Countdown completed") // Debug print
             terminateCountdown()
+            isFinished = true
         }
     }
 }

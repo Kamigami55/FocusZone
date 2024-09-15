@@ -58,6 +58,12 @@ struct CountdownTimerView: View {
                 }
             }
         }
+        .onChange(of: appState.countdownTimer.isFinished) { _, isFinished in
+            if isFinished {
+                appState.isShowingFinishAlert = true
+                viewModel.isFinished = false  // Reset the flag
+            }
+        }
         .alert(Text("Confirm leaving"), isPresented: $appState.isShowingConfirmStopAlert, actions: {
             Button("Leave", role: .destructive) {
                 Task {
@@ -77,9 +83,7 @@ struct CountdownTimerView: View {
             Button("Start another focus") {
                 Task {
                     appState.isShowingFinishAlert = false
-                    appState.countdownTimer.startCountdown(numSecs: appState.selectedFocusTimeLength * 60)
-                    dismissWindow(id: appState.homeViewID)
-                    openWindow(id: appState.countdownViewID)
+                    appState.countdownTimer.startCountdown(numSecs: appState.selectedFocusTimeLength)
                 }
             }
             .disabled(appState.immersiveSpaceState == .inTransition)
@@ -87,15 +91,14 @@ struct CountdownTimerView: View {
                 Task {
                     appState.isShowingFinishAlert = false
                     appState.countdownTimer.terminateCountdown()
+                    dismissWindow(id: appState.countdownViewID)
                     appState.immersiveSpaceState = .inTransition
                     await dismissImmersiveSpace()
-                    dismissWindow(id: appState.countdownViewID)
-                    openWindow(id: appState.homeViewID)
                 }
             }
             .disabled(appState.immersiveSpaceState == .inTransition)
         }, message: {
-            Text("You finished a \(appState.selectedFocusTimeLength) minitus focus time.")
+            Text("You finished a \(appState.selectedFocusTimeLength / 60) minitus focus time.")
         })
     }
 }

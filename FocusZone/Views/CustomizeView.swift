@@ -7,10 +7,12 @@
 
 import SwiftUI
 
+// sec
 let focusTimeLengthOptions = [
-    15,
-    30,
-    60,
+    10, // 10 sec
+    900, // 15min
+    1800, // 30 min
+    3600, // 60 min
 ]
 
 struct CustomizeView: View {
@@ -41,7 +43,7 @@ struct CustomizeView: View {
                 Picker("Focus Time Length",
                        selection: $appState.selectedFocusTimeLength) {
                     ForEach(focusTimeLengthOptions, id: \.self) { timeLength in
-                        Text("\(timeLength) mins").tag(timeLength)
+                        Text("\(timeLength / 60) mins")
                     }
                 }
                        .pickerStyle(.segmented)
@@ -113,6 +115,7 @@ struct CustomizeView: View {
             
 
             ToggleImmersiveSpaceButton(text: "Start focus")
+                .environment(appState)
         }
         .padding()
     }

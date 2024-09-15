@@ -33,7 +33,7 @@ class AppState {
 
     var immersiveSpaceState = ImmersiveSpaceState.closed
     
-    var selectedFocusTimeLength: Int = 30
+    var selectedFocusTimeLength: Int = 30 * 60
     var selectedImmersiveSpaceId: ImmersiveSpaceId = .space
     
     var detectHeadMovement: Bool = true

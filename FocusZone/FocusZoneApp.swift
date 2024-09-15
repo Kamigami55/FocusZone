@@ -91,7 +91,7 @@ struct FocusZoneApp: App {
                         appState.countdownTimer
                             .resumeCountdown()
                     } else {
-                        appState.countdownTimer.startCountdown(numSecs: appState.selectedFocusTimeLength * 60)
+                        appState.countdownTimer.startCountdown(numSecs: appState.selectedFocusTimeLength)
                     }
                     dismissWindow(id: appState.homeViewID)
                     openWindow(id: appState.countdownViewID)
