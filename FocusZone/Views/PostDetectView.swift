@@ -79,15 +79,7 @@ struct PostDetectView: View {
                         self.objectVisualizations[id] = visualization
                         root.addChild(visualization.entity)
                     case .updated:
-                        print("PHONE UPDATED")
-                        if (appState.lastDistractionTime == nil || Date() > (appState.lastDistractionTime?
-                            .addingTimeInterval(5))!
-                        )
-                        {
-                            appState.activeDistraction = .phone
-                            appState.isShowingDistractionAlert = true
-                        }
-
+//                        print("PHONE UPDATED")
                         objectVisualizations[id]?.update(with: anchor)
                     case .removed:
                         objectVisualizations[id]?.entity.removeFromParent()
