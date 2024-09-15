@@ -61,5 +61,4 @@ struct CountdownTimerView: View {
         .onAppear() {
             appState.countdownTimer.startCountdown(numSecs: 10 * 60)
         }
-        .persistentSystemOverlays(.hidden)
 }

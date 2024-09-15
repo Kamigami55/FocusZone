@@ -27,6 +27,7 @@ class AppState {
     let immersiveSpaceViewID = "ImmersiveSpaceView"
 
     var isShowingCustomizeView: Bool = false
+    var isShowingCountdownView: Bool = false
 
     var immersiveSpaceState = ImmersiveSpaceState.closed
     

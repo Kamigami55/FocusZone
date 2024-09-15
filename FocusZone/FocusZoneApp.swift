@@ -8,6 +8,12 @@
 import SwiftUI
 import os
 
+enum LongPressState {
+    case inactive
+    case pressing
+    case released
+}
+
 @main
 struct FocusZoneApp: App {
 
@@ -18,7 +24,29 @@ struct FocusZoneApp: App {
     
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
-
+    @GestureState private var longPressState: LongPressState = .inactive
+    var longPress: some Gesture {
+        LongPressGesture(minimumDuration: 0.5)
+            .targetedToAnyEntity()
+            .updating($longPressState) { value, gestureState, transaction in
+                print("Updating")
+                gestureState = .pressing
+            }
+            .onEnded { value in
+                print(longPressState)
+                switch longPressState {
+                case .inactive:
+                    print("Inactive stage")
+                case .pressing:
+                    print("Pressing stage")
+                case .released:
+                    print("Released stage")
+                    if (!appState.isShowingCountdownView) {
+                        openWindow(id: appState.countdownViewID)
+                    }
+                }
+            }
+    }
     var body: some Scene {
         @Bindable var appState = appState
 
@@ -42,13 +70,16 @@ struct FocusZoneApp: App {
         WindowGroup(id: appState.countdownViewID) {
             CountdownTimerView(appState: appState)
                 .onAppear {
+                    appState.isShowingCountdownView = true
                     // Disable resizing
                     guard let windowScene = UIApplication.shared.connectedScenes.second as?UIWindowScene else { return }
                     windowScene.requestGeometryUpdate(.Vision(resizingRestrictions: UIWindowScene.ResizingRestrictions.none))
                 }
+                .onDisappear {
+                    appState.isShowingCountdownView = false
+                }
         }
         .windowResizability(.contentSize)
-        .persistentSystemOverlays(.hidden)
         .defaultSize(width: 0, height: 0)  // Initial size, will be overridden by content
 
         ImmersiveSpace(id: appState.immersiveSpaceViewID) {
