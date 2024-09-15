@@ -19,6 +19,10 @@ A Vision OS app that helps you focus on your work.
 - ARKit
 - Create ML Object Detection
 
+## Demo
+
+[Demo Video](./screenshots/demo.mov)
+
 ## Screenshots
 
 Start screen:
