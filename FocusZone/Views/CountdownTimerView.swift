@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct CountdownTimerView: View {
+    @Environment(\.openWindow) private var openWindow
+    @Environment(\.dismissWindow) private var dismissWindow
+    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
+
+    @Environment(AppState.self) private var appState
     @StateObject private var viewModel: CountdownTimerViewModel
-    
+    @State private var isShowingAlert: Bool = false
+
     init(appState: AppState) {
         self._viewModel = StateObject(wrappedValue: appState.countdownTimer)
     }
@@ -27,12 +33,27 @@ struct CountdownTimerView: View {
             
             HStack (spacing: 16) {
                 Button(action: {
-                    viewModel.terminateCountdown()
+                    isShowingAlert = true
                 }) {
                     Image(systemName: "stop.fill")
                 }
                 .buttonBorderShape(.circle)
                 .disabled(!viewModel.isRunning && viewModel.pausedTimeRemaining == nil)
+                .alert(Text("Confirm leaving"), isPresented: $isShowingAlert, actions: {
+                    Button("Leave") {
+                        Task {
+                            viewModel.terminateCountdown()
+                            await dismissImmersiveSpace()
+                            dismissWindow(id: appState.countdownViewID)
+                            openWindow(id: appState.homeViewID)
+                        }
+                    }
+                    Button("Continue", role: .cancel) {
+                        isShowingAlert = false
+                    }
+                }, message: {
+                    Text("If you leave, the timer will restart next time.")
+                })
                 
                 if viewModel.isRunning {
                     Button(action: {
@@ -58,6 +79,7 @@ struct CountdownTimerView: View {
     let appState = AppState()
     
     CountdownTimerView(appState: appState)
+        .environment(appState)
         .onAppear() {
             appState.countdownTimer.startCountdown(numSecs: 10 * 60)
         }

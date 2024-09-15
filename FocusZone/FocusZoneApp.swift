@@ -69,6 +69,7 @@ struct FocusZoneApp: App {
         
         WindowGroup(id: appState.countdownViewID) {
             CountdownTimerView(appState: appState)
+                .environment(appState)
                 .onAppear {
                     appState.isShowingCountdownView = true
                     // Disable resizing
