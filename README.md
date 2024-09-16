@@ -21,7 +21,7 @@ A Vision OS app that helps you focus on your work.
 
 ## Demo
 
-[Demo Video](./screenshots/demo-video.mp4)
+[![Focus Zone demo video on YouTube](http://i.ytimg.com/vi/sn0jfR38zQg/hqdefault.jpg)](https://www.youtube.com/watch?v=sn0jfR38zQg)
 
 ## Screenshots
 
